@@ -3,24 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Open Brackets is a design and development studio that turns complex problems into refined digital products. Designed with intention. Engineered to perform." />
+  <meta name="theme-color" content="#0c0906" />
+  <meta property="og:title" content="theopenbrackets — Design & Development Studio" />
+  <meta property="og:description" content="We turn complex problems into refined digital products. Designed with intention. Engineered to perform." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="Background.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="theopenbrackets" />
+  <meta name="twitter:description" content="Design & development studio. Designed with intention. Engineered to perform." />
+  <meta name="twitter:image" content="Background.webp" />
   <title>theopenbrackets</title>
   <link rel="icon" type="image/png" href="Favicon.png" />
+  <link rel="preload" as="video" href="Background.mp4" type="video/mp4" />
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@300,500&f[]=general-sans@300&display=swap" />
   <style>
-    @font-face {
-      font-family: 'ClashDisplay';
-      src: url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Variable.woff2') format('woff2'),
-           url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Variable.woff') format('woff'),
-           url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Variable.ttf') format('truetype');
-      font-weight: 200 700;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'GeneralSans';
-      src: url('GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Variable.woff2') format('woff2');
-      font-weight: 200 700;
-      font-display: swap;
-    }
 
     /* ── ENTRANCE KEYFRAMES ────────────────────────────── */
     @keyframes fadeDown {
@@ -40,6 +38,21 @@
       to   { transform: scale(1.55); }
     }
 
+    /* Shared gradient hover fill — used by all CTA/button elements */
+    .nav__cta::after,
+    .hero__btn::after,
+    .cs-feature__cta::after,
+    .footer__cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, #F4632A, #8E2800);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+    }
+
     *, *::before, *::after {
       margin: 0;
       padding: 0;
@@ -53,7 +66,7 @@
 
     body {
       background-color: #0c0906;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
     }
 
     /* ── CUSTOM CURSOR ─────────────────────────────────── */
@@ -94,7 +107,7 @@
     .bg-fixed {
       position: fixed;
       inset: 0;
-      background-image: url('Background.png');
+      background-image: url('Background.webp');
       background-size: cover;
       background-position: center;
       z-index: 0;
@@ -104,7 +117,7 @@
     .bg-purple {
       position: fixed;
       inset: 0;
-      background-image: url('Background Purple.png');
+      background-image: url('Background Purple.webp');
       background-size: cover;
       background-position: center;
       z-index: 0;
@@ -115,7 +128,7 @@
     .bg-green {
       position: fixed;
       inset: 0;
-      background-image: url('Background Green.png');
+      background-image: url('Background Green.webp');
       background-size: cover;
       background-position: center;
       z-index: 0;
@@ -144,6 +157,46 @@
       object-position: center;
       transform-origin: center center;
       animation: videoZoomIn 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .video-fixed__poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform-origin: center center;
+      animation: videoZoomIn 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
+    }
+    .video-fixed__poster.is-hidden {
+      opacity: 0;
+    }
+
+    .bg-video-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+    .bg-video-poster.is-hidden {
+      opacity: 0;
+    }
+    /* Services: height follows video's natural aspect ratio */
+    .video-services .bg-video-poster {
+      height: auto;
+    }
+    /* Footer: match video's object-position and blend mode (container uses isolation: isolate) */
+    .footer__bg-visual .bg-video-poster {
+      object-position: center top;
+      mix-blend-mode: screen;
     }
 
     /* ── STICKY NAV ────────────────────────────────────── */
@@ -191,7 +244,7 @@
     .nav__links a {
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 11.5px;
       font-weight: 500;
       letter-spacing: 0.1em;
@@ -211,7 +264,7 @@
       justify-content: center;
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 11.5px;
       font-weight: 500;
       letter-spacing: 0.1em;
@@ -225,17 +278,6 @@
                   transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       flex-shrink: 0;
-    }
-
-    .nav__cta::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom right, #F4632A, #8E2800);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
     }
 
     .nav__cta:hover {
@@ -324,7 +366,7 @@
     .nav__mobile-links a {
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 44px;
       font-weight: 300;
       letter-spacing: 0.02em;
@@ -415,13 +457,12 @@
     }
 
     .hero__headline {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 64px;
       font-weight: 300;
       line-height: 1.0;
       letter-spacing: -0.02em;
       color: #ffffff;
-      text-transform: uppercase;
       margin-bottom: 32px;
       animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
     }
@@ -433,7 +474,7 @@
       justify-content: center;
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -447,17 +488,6 @@
       transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                   border-color 0.4s ease,
                   transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hero__btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom right, #F4632A, #8E2800);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
     }
 
     .hero__btn:hover {
@@ -515,13 +545,12 @@
     }
 
     .about__text p {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 44px;
       font-weight: 300;
       line-height: 1.12;
       letter-spacing: -0.01em;
       color: #ffffff;
-      text-transform: uppercase;
     }
 
     /* ── CASE STUDIES ──────────────────────────────────── */
@@ -536,11 +565,10 @@
     }
 
     .case-studies__title {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 48px;
       font-weight: 300;
       color: #ffffff;
-      text-transform: uppercase;
       letter-spacing: -0.01em;
       text-align: center;
       margin-bottom: 52px;
@@ -633,18 +661,17 @@
     }
 
     .cs-feature__title {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 80px;
       font-weight: 300;
       color: #ffffff;
-      text-transform: uppercase;
       letter-spacing: -0.03em;
       line-height: 0.92;
       margin: 0 0 16px;
     }
 
     .cs-feature__body {
-      font-family: 'GeneralSans', sans-serif;
+      font-family: 'General Sans', sans-serif;
       font-size: 18px;
       font-weight: 300;
       color: #ffffff;
@@ -665,7 +692,7 @@
       flex-shrink: 0;
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -683,16 +710,6 @@
                   transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .cs-feature__cta::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom right, #F4632A, #8E2800);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
-    }
 
     .cs-feature__cta:hover {
       color: #ffffff;
@@ -750,18 +767,17 @@
     }
 
     .services__title {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 48px;
       font-weight: 300;
       color: #ffffff;
-      text-transform: uppercase;
       letter-spacing: -0.02em;
       line-height: 1;
       margin: 0 0 24px;
     }
 
     .services__body {
-      font-family: 'GeneralSans', sans-serif;
+      font-family: 'General Sans', sans-serif;
       font-size: 18px;
       font-weight: 300;
       color: #ffffff;
@@ -797,18 +813,17 @@
     }
 
     .services__detail-title {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 64px;
       font-weight: 300;
       color: #ffffff;
-      text-transform: uppercase;
       letter-spacing: -0.03em;
       line-height: 0.9;
       margin: 0 0 20px;
     }
 
     .services__detail-body {
-      font-family: 'GeneralSans', sans-serif;
+      font-family: 'General Sans', sans-serif;
       font-size: 18px;
       font-weight: 300;
       color: #ffffff;
@@ -828,7 +843,7 @@
     }
 
     .services__tag {
-      font-family: 'GeneralSans', sans-serif;
+      font-family: 'General Sans', sans-serif;
       font-size: 14px;
       font-weight: 300;
       color: #ffffff;
@@ -871,18 +886,17 @@
     }
 
     .clients__title {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 48px;
       font-weight: 300;
       color: #ffffff;
-      text-transform: uppercase;
       letter-spacing: -0.01em;
       line-height: 1;
       margin: 0 0 24px;
     }
 
     .clients__body {
-      font-family: 'GeneralSans', sans-serif;
+      font-family: 'General Sans', sans-serif;
       font-size: 18px;
       font-weight: 300;
       color: #ffffff;
@@ -997,11 +1011,10 @@
     }
 
     .footer__title {
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 56px;
       font-weight: 300;
       color: #ffffff;
-      text-transform: uppercase;
       letter-spacing: -0.01em;
       line-height: 1;
       margin: 0 0 36px;
@@ -1014,7 +1027,7 @@
       justify-content: center;
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -1027,17 +1040,6 @@
       transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                   border-color 0.4s ease,
                   transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .footer__cta::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom right, #F4632A, #8E2800);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
     }
 
     .footer__cta:hover {
@@ -1073,7 +1075,7 @@
     .footer__social a {
       color: #ffffff;
       text-decoration: none;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 11.5px;
       font-weight: 500;
       letter-spacing: 0.1em;
@@ -1087,7 +1089,7 @@
 
     .footer__copyright {
       justify-self: start;
-      font-family: 'ClashDisplay', sans-serif;
+      font-family: 'Clash Display', sans-serif;
       font-size: 13px;
       font-weight: 300;
       color: #ffffff;
@@ -1121,7 +1123,8 @@
         padding-left: 0;
         padding-right: 0;
       }
-      .video-fixed video {
+      .video-fixed video,
+      .video-fixed__poster {
         object-fit: contain;
       }
       @keyframes videoZoomIn {
@@ -1297,16 +1300,18 @@
 
   <!-- Single video — JS drives its rightward drift on scroll -->
   <div class="video-fixed" id="js-video-fixed">
-    <video autoplay muted loop playsinline>
+    <video autoplay muted loop playsinline preload="metadata">
       <source src="Background.mp4" type="video/mp4" />
     </video>
+    <img class="video-fixed__poster" src="Background Video.webp" alt="" aria-hidden="true" />
   </div>
 
   <!-- Services video — rises from bottom at -80deg in section 4 -->
   <div class="video-services" id="js-video-services">
-    <video autoplay muted loop playsinline>
+    <video autoplay muted loop playsinline preload="none">
       <source src="Background.mp4" type="video/mp4" />
     </video>
+    <img class="bg-video-poster" src="Background Video.webp" alt="" aria-hidden="true" />
   </div>
 
   <!-- Sticky nav -->
@@ -1345,7 +1350,7 @@
     <section class="hero">
       <div class="hero__content" id="js-hero-content">
         <h1 class="hero__headline">
-          We Build Experiences<br />People Remember
+          We build experiences<br />people remember
         </h1>
         <a href="#" class="hero__btn">Get a Quote</a>
       </div>
@@ -1360,16 +1365,16 @@
 
     <!-- Case Studies -->
     <section class="case-studies" id="js-case-studies">
-      <h2 class="case-studies__title" id="js-cs-title">See Our Work</h2>
+      <h2 class="case-studies__title" id="js-cs-title">See our work</h2>
     </section>
 
     <!-- Cadillac IQ case study card -->
     <section class="cs-feature" id="js-cs-feature-section">
       <div class="cs-feature__card" id="js-cs-feature-card">
-        <img class="cs-feature__bg" src="CS1.png" alt="Cadillac lineup" />
+        <img class="cs-feature__bg" src="CS1.webp" alt="Cadillac lineup" loading="lazy" decoding="async" />
         <div class="cs-feature__overlay"></div>
         <div class="cs-feature__mockup-wrap">
-          <img src="Cadillac Mockup.png" alt="Cadillac IQ website on laptop" />
+          <img src="Cadillac Mockup.webp" alt="Cadillac IQ website on laptop" loading="lazy" decoding="async" />
         </div>
         <div class="cs-feature__content" id="js-cs-feature-content">
           <div class="cs-feature__left">
@@ -1384,10 +1389,10 @@
     <!-- YAP case study card -->
     <section class="cs-feature" id="js-yap-section">
       <div class="cs-feature__card" id="js-yap-card">
-        <img class="cs-feature__bg" src="CS2.png" alt="YAP" />
+        <img class="cs-feature__bg" src="CS2.webp" alt="YAP" loading="lazy" decoding="async" />
         <div class="cs-feature__overlay"></div>
         <div class="cs-feature__mockup-wrap">
-          <img src="Yap Mockup.png" alt="YAP app on phone" />
+          <img src="Yap Mockup.webp" alt="YAP app on phone" loading="lazy" decoding="async" />
         </div>
         <div class="cs-feature__content" id="js-yap-content">
           <div class="cs-feature__left">
@@ -1402,10 +1407,10 @@
     <!-- KFH case study card -->
     <section class="cs-feature" id="js-cs3-section">
       <div class="cs-feature__card" id="js-cs3-card">
-        <img class="cs-feature__bg" src="CS3.png" alt="KFH Capital" />
+        <img class="cs-feature__bg" src="CS3.webp" alt="KFH Capital" loading="lazy" decoding="async" />
         <div class="cs-feature__overlay"></div>
         <div class="cs-feature__mockup-wrap">
-          <img src="KFH Mockup.png" alt="KFH Capital on laptop" />
+          <img src="KFH Mockup.webp" alt="KFH Capital on laptop" loading="lazy" decoding="async" />
         </div>
         <div class="cs-feature__content" id="js-cs3-content">
           <div class="cs-feature__left">
@@ -1420,10 +1425,10 @@
     <!-- Alfanar case study card -->
     <section class="cs-feature" id="js-cs4-section">
       <div class="cs-feature__card" id="js-cs4-card">
-        <img class="cs-feature__bg" src="CS4.png" alt="Alfanar" />
+        <img class="cs-feature__bg" src="CS4.webp" alt="Alfanar" loading="lazy" decoding="async" />
         <div class="cs-feature__overlay"></div>
         <div class="cs-feature__mockup-wrap">
-          <img src="Alfanar Mockup.png" alt="Alfanar on laptop" />
+          <img src="Alfanar Mockup.webp" alt="Alfanar on laptop" loading="lazy" decoding="async" />
         </div>
         <div class="cs-feature__content" id="js-cs4-content">
           <div class="cs-feature__left">
@@ -1438,7 +1443,7 @@
     <!-- Services / What We Do -->
     <section class="services" id="js-services">
       <div class="services__inner" id="js-services-inner">
-        <h2 class="services__title">What We Do</h2>
+        <h2 class="services__title">What we do</h2>
         <p class="services__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum.</p>
       </div>
 
@@ -1459,7 +1464,7 @@
       </div>
 
       <!-- Design showcase image — fades in on right -->
-      <img class="services__design-img" id="js-design-img" src="Design.png" alt="Design work" />
+      <img class="services__design-img" id="js-design-img" src="Design.webp" alt="Design work" loading="lazy" decoding="async" />
 
       <!-- Develop detail — rises from bottom after Design exits -->
       <div class="services__detail" id="js-develop-detail">
@@ -1480,33 +1485,33 @@
       </div>
 
       <!-- Develop showcase image -->
-      <img class="services__design-img" id="js-develop-img" src="Develop.png" alt="Develop work" />
+      <img class="services__design-img" id="js-develop-img" src="Develop.webp" alt="Develop work" loading="lazy" decoding="async" />
     </section>
 
     <!-- Our Clients section -->
     <section class="clients" id="js-clients">
       <div class="clients__inner" id="js-clients-inner">
-        <h2 class="clients__title">Our Clients</h2>
+        <h2 class="clients__title">Our clients</h2>
         <p class="clients__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl.</p>
         <div class="clients__logos">
-          <div class="clients__logo"><img src="Client Logos/NEOM.svg" alt="NEOM"></div>
-          <div class="clients__logo"><img src="Client Logos/EIB.svg" alt="Emirates Investment Bank"></div>
-          <div class="clients__logo"><img src="Client Logos/Aramco.svg" alt="Aramco"></div>
-          <div class="clients__logo"><img src="Client Logos/DXB.svg" alt="DXB"></div>
-          <div class="clients__logo"><img src="Client Logos/Gucci.svg" alt="Gucci"></div>
-          <div class="clients__logo"><img src="Client Logos/Cadillac.svg" alt="Cadillac"></div>
-          <div class="clients__logo"><img src="Client Logos/IQ.svg" alt="Invest Qatar"></div>
-          <div class="clients__logo"><img src="Client Logos/KFH.svg" alt="KFH"></div>
-          <div class="clients__logo"><img src="Client Logos/CFJ.svg" alt="Clooney Foundation for Justice"></div>
-          <div class="clients__logo"><img src="Client Logos/Aroya.svg" alt="Aroya Cruises"></div>
-          <div class="clients__logo"><img src="Client Logos/Chevrolet.svg" alt="Chevrolet"></div>
-          <div class="clients__logo"><img src="Client Logos/Olayan.svg" alt="Olayan"></div>
-          <div class="clients__logo"><img src="Client Logos/Kia.svg" alt="Kia"></div>
-          <div class="clients__logo"><img src="Client Logos/Entertainer.svg" alt="The Entertainer"></div>
-          <div class="clients__logo"><img src="Client Logos/ACDelco.svg" alt="ACDelco"></div>
-          <div class="clients__logo"><img src="Client Logos/GM.svg" alt="General Motors"></div>
-          <div class="clients__logo"><img src="Client Logos/KDC.svg" alt="Kolaghassi Capital"></div>
-          <div class="clients__logo"><img src="Client Logos/Darna.svg" alt="Darna"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/NEOM.svg" alt="NEOM"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/EIB.svg" alt="Emirates Investment Bank"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Aramco.svg" alt="Aramco"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/DXB.svg" alt="DXB"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Gucci.svg" alt="Gucci"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Cadillac.svg" alt="Cadillac"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/IQ.svg" alt="Invest Qatar"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/KFH.svg" alt="KFH"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/CFJ.svg" alt="Clooney Foundation for Justice"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Aroya.svg" alt="Aroya Cruises"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Chevrolet.svg" alt="Chevrolet"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Olayan.svg" alt="Olayan"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Kia.svg" alt="Kia"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Entertainer.svg" alt="The Entertainer"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/ACDelco.svg" alt="ACDelco"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/GM.svg" alt="General Motors"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/KDC.svg" alt="Kolaghassi Capital"></div>
+          <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/Darna.svg" alt="Darna"></div>
         </div>
       </div>
     </section>
@@ -1514,13 +1519,14 @@
     <!-- Footer -->
     <section class="footer" id="js-footer">
       <div class="footer__bg-visual">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline preload="none">
           <source src="Background.mp4" type="video/mp4" />
         </video>
+        <img class="bg-video-poster" src="Background Video.webp" alt="" aria-hidden="true" />
       </div>
       <div class="footer__container" id="js-footer-container">
         <div class="footer__top">
-          <h2 class="footer__title">Lets Work Together</h2>
+          <h2 class="footer__title">Lets work together</h2>
           <a href="#" class="footer__cta">Contact Us</a>
         </div>
 
@@ -1577,6 +1583,38 @@
       var clientLogos      = document.querySelectorAll('.clients__logo');
       var footerSection    = document.getElementById('js-footer');
       var footerContainer  = document.getElementById('js-footer-container');
+
+      // Fade out poster only after video's first frame is painted — prevents flash gap
+      function setupPoster(videoEl, posterEl, fallbackMs) {
+        if (!videoEl || !posterEl) return;
+        function hide() { posterEl.classList.add('is-hidden'); }
+        function onFirstFrame() {
+          // Double rAF ensures the frame is composited before we fade the poster
+          requestAnimationFrame(function () { requestAnimationFrame(hide); });
+        }
+        // If already playing from cache, bail out immediately
+        if (!videoEl.paused && videoEl.currentTime > 0) {
+          onFirstFrame();
+          return;
+        }
+        videoEl.addEventListener('playing', onFirstFrame, { once: true });
+        setTimeout(hide, fallbackMs);
+      }
+      setupPoster(
+        document.querySelector('#js-video-fixed video'),
+        document.querySelector('.video-fixed__poster'),
+        4000
+      );
+      setupPoster(
+        document.querySelector('#js-video-services video'),
+        document.querySelector('#js-video-services .bg-video-poster'),
+        6000
+      );
+      setupPoster(
+        document.querySelector('.footer__bg-visual video'),
+        document.querySelector('.footer__bg-visual .bg-video-poster'),
+        6000
+      );
 
       var csFeatureOffset  = 0;
       var yapOffset        = 0;
@@ -1945,7 +1983,7 @@
             servicesDetail.style.pointerEvents = detailProg > 0.5 ? 'auto' : 'none';
           }
 
-          /* Design.png: enters via servTransProg, exits up slower via servTrans2Prog */
+          /* Design.webp: enters via servTransProg, exits up slower via servTrans2Prog */
           if (servTrans2Prog > 0) {
             var dImgExitP = Math.min(1, servTrans2Prog / 0.50);
             designImg.style.transform = 'translateY(' + (-dImgExitP * 70).toFixed(2) + 'px)';
@@ -1961,7 +1999,7 @@
           developDetail.style.opacity      = devProg.toFixed(4);
           developDetail.style.pointerEvents = devProg > 0.5 ? 'auto' : 'none';
 
-          /* Develop.png fades in, staggered slightly after detail */
+          /* Develop.webp fades in, staggered slightly after detail */
           developImg.style.opacity = Math.max(0, Math.min(1, (servTrans2Prog - 0.65) / 0.35)).toFixed(4);
         }
 
@@ -2005,16 +2043,16 @@
       window.addEventListener('mousemove', function (e) {
         cursorX = e.clientX;
         cursorY = e.clientY;
-      });
+      }, { passive: true });
 
       document.addEventListener('mouseover', function (e) {
         var target = e.target.closest('a, button, [role="button"]');
         cursorInnerEl.classList.toggle('is-visible', !!target);
-      });
+      }, { passive: true });
 
       document.addEventListener('mouseleave', function () {
         cursorInnerEl.classList.remove('is-visible');
-      });
+      }, { passive: true });
 
       function cursorLoop() {
         cursorLerpX += (cursorX - cursorLerpX) * 0.2;
@@ -2024,6 +2062,17 @@
       }
       requestAnimationFrame(cursorLoop);
     })();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function (err) {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
+
   </script>
 
 </body>
