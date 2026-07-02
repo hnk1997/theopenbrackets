@@ -109,8 +109,8 @@
       inset: 0;
       background-color: #050301;
       background-image:
-        radial-gradient(120% 65% at 50% 82%, rgba(244, 99, 42, 0.35) 0%, rgba(244, 99, 42, 0.14) 40%, rgba(244, 99, 42, 0) 72%),
-        radial-gradient(70% 40% at 50% 96%, rgba(244, 99, 42, 0.22) 0%, rgba(244, 99, 42, 0) 75%);
+        radial-gradient(120% 65% at 50% 82%, rgba(244, 99, 42, 0.175) 0%, rgba(244, 99, 42, 0.07) 40%, rgba(244, 99, 42, 0) 72%),
+        radial-gradient(70% 40% at 50% 96%, rgba(244, 99, 42, 0.11) 0%, rgba(244, 99, 42, 0) 75%);
       filter: blur(150px);
       z-index: 0;
       pointer-events: none;
@@ -119,9 +119,11 @@
     .bg-purple {
       position: fixed;
       inset: 0;
-      background-image: url('Background Purple.webp');
-      background-size: cover;
-      background-position: center;
+      background-color: #030209;
+      background-image:
+        radial-gradient(120% 65% at 50% 82%, rgba(95, 43, 238, 0.175) 0%, rgba(95, 43, 238, 0.07) 40%, rgba(95, 43, 238, 0) 72%),
+        radial-gradient(70% 40% at 50% 96%, rgba(95, 43, 238, 0.11) 0%, rgba(95, 43, 238, 0) 75%);
+      filter: blur(150px);
       z-index: 0;
       pointer-events: none;
       opacity: 0;
@@ -130,9 +132,11 @@
     .bg-green {
       position: fixed;
       inset: 0;
-      background-image: url('Background Green.webp');
-      background-size: cover;
-      background-position: center;
+      background-color: #020402;
+      background-image:
+        radial-gradient(120% 65% at 50% 82%, rgba(34, 195, 99, 0.175) 0%, rgba(34, 195, 99, 0.07) 40%, rgba(34, 195, 99, 0) 72%),
+        radial-gradient(70% 40% at 50% 96%, rgba(34, 195, 99, 0.11) 0%, rgba(34, 195, 99, 0) 75%);
+      filter: blur(150px);
       z-index: 0;
       pointer-events: none;
       opacity: 0;
@@ -195,12 +199,6 @@
     .video-services .bg-video-poster {
       height: auto;
     }
-    /* Footer: match video's object-position and blend mode (container uses isolation: isolate) */
-    .footer__bg-visual .bg-video-poster {
-      object-position: center top;
-      mix-blend-mode: screen;
-    }
-
     /* ── STICKY NAV ────────────────────────────────────── */
     .nav {
       position: fixed;
@@ -630,12 +628,12 @@
       left: 50%;
       transform: translateX(-50%);
       width: 52%;
-      max-width: 780px;
+      max-width: 1400px;
     }
 
     #js-yap-card .cs-feature__mockup-wrap {
       width: 22%;
-      max-width: 320px;
+      max-width: 500px;
     }
 
     .cs-feature__mockup-wrap img {
@@ -950,31 +948,6 @@
       z-index: 2;
       background: transparent;
       padding: 64px 44px 96px;
-    }
-
-    .footer__bg-visual {
-      position: absolute;
-      left: 50%;
-      bottom: -130%;
-      transform: translateX(-50%) rotate(270deg);
-      width: 80%;
-      max-width: 1200px;
-      height: 160%;
-      z-index: 0;
-      pointer-events: none;
-      isolation: isolate;
-      background: #1a0b04;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 100%);
-    }
-
-    .footer__bg-visual video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-      mix-blend-mode: screen;
     }
 
     .footer__container {
@@ -1520,12 +1493,6 @@
 
     <!-- Footer -->
     <section class="footer" id="js-footer">
-      <div class="footer__bg-visual">
-        <video autoplay muted loop playsinline preload="none">
-          <source src="Background.mp4" type="video/mp4" />
-        </video>
-        <img class="bg-video-poster" src="Background Video.webp" alt="" aria-hidden="true" />
-      </div>
       <div class="footer__container" id="js-footer-container">
         <div class="footer__top">
           <h2 class="footer__title">Lets work together</h2>
@@ -1612,11 +1579,6 @@
         document.querySelector('#js-video-services .bg-video-poster'),
         6000
       );
-      setupPoster(
-        document.querySelector('.footer__bg-visual video'),
-        document.querySelector('.footer__bg-visual .bg-video-poster'),
-        6000
-      );
 
       var csFeatureOffset  = 0;
       var yapOffset        = 0;
@@ -1693,6 +1655,8 @@
       var currentX  = 0;
       var aboutDone = false;
       var csDone    = false;
+      var isMobile  = window.matchMedia('(max-width: 768px)').matches;
+      var lerpFactor = isMobile ? 0.35 : 0.08;
 
       window.addEventListener('scroll', function () {
         rawY = window.scrollY;
@@ -1773,7 +1737,7 @@
             }
           }
         }
-        lerpedY += (targetY - lerpedY) * 0.08;
+        lerpedY += (targetY - lerpedY) * lerpFactor;
         if (Math.abs(targetY - lerpedY) < 0.05) lerpedY = targetY;
         scrollContent.style.transform = 'translateY(' + (-lerpedY).toFixed(2) + 'px)';
 
@@ -1802,6 +1766,11 @@
           currentX += (targetX - currentX) * 0.07;
           videoFixed.style.transform = 'translateX(' + currentX.toFixed(2) + 'px)';
         }
+
+        /* Fully hide once its slide-off animation completes — its translateX caps at
+           110vw but the element itself is wider than that, leaving a permanent sliver
+           visible on the right edge through every section below otherwise. */
+        videoFixed.style.opacity = Math.max(0, 1 - Math.max(0, lerpedY - vh * 2) / (vh * 0.5)).toFixed(3);
 
         /* ── About text: slide in + subtle upward parallax as CS enters ── */
         var aboutTop = vh - lerpedY;
