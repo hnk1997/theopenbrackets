@@ -449,6 +449,14 @@
       cursor: pointer;
     }
 
+    /* Native dropdown popups don't inherit the page's translucent styling —
+       give options an explicit solid background so text stays visible
+       (otherwise Windows renders white-on-white). */
+    .contact-form__select option {
+      background-color: #14100c;
+      color: #ffffff;
+    }
+
     .contact-form__phone-row {
       display: flex;
       gap: 12px;
