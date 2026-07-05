@@ -20,11 +20,14 @@
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@300,500&f[]=general-sans@300&display=swap" />
   <style>
 
-    /* ── ENTRANCE KEYFRAMES ────────────────────────────── */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-18px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ── SMOOTH CROSS-PAGE NAVIGATION ──
+       Persists the nav bar across full-page loads so it doesn't flash/reload
+       when navigating between index.html and contact.html. */
+    @view-transition {
+      navigation: auto;
     }
+
+    /* ── ENTRANCE KEYFRAMES ────────────────────────────── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -210,7 +213,7 @@
       right: 0;
       z-index: 100;
       display: flex;
-      animation: fadeDown 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s both;
+      view-transition-name: main-nav;
       align-items: center;
       justify-content: space-between;
       padding: 32px 44px;
@@ -1317,7 +1320,7 @@
     <ul class="nav__links">
       <li><a href="#" id="js-nav-case-studies">Work</a></li>
       <li><a href="#" id="js-nav-services">Services</a></li>
-      <li><a href="#">Contact Us</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
     </ul>
     <button class="nav__menu-btn" id="js-nav-menu-btn" aria-label="Open menu">
       <img src="Icons/mdi-light_menu.svg" alt="" />
@@ -1334,7 +1337,7 @@
     <ul class="nav__mobile-links">
       <li><a href="#" id="js-nav-mobile-work"><span>Work</span></a></li>
       <li><a href="#" id="js-nav-mobile-services"><span>Services</span></a></li>
-      <li><a href="#" id="js-nav-mobile-contact"><span>Contact Us</span></a></li>
+      <li><a href="contact.html" id="js-nav-mobile-contact"><span>Contact Us</span></a></li>
     </ul>
   </div>
 
@@ -1347,7 +1350,7 @@
         <h1 class="hero__headline">
           We build experiences<br />people remember
         </h1>
-        <a href="#" class="hero__btn">Get a Quote</a>
+        <a href="contact.html" class="hero__btn">Get a Quote</a>
       </div>
     </section>
 
@@ -1455,7 +1458,7 @@
           <span class="services__tag">Design Systems</span>
 
         </div>
-        <a href="#" class="hero__btn services__detail-cta">Get a Quote</a>
+        <a href="contact.html" class="hero__btn services__detail-cta">Get a Quote</a>
       </div>
 
       <!-- Design showcase image — fades in on right -->
@@ -1476,7 +1479,7 @@
           <span class="services__tag">QA Testing</span>
           <span class="services__tag">DevOps</span>
         </div>
-        <a href="#" class="hero__btn services__detail-cta">Get a Quote</a>
+        <a href="contact.html" class="hero__btn services__detail-cta">Get a Quote</a>
       </div>
 
       <!-- Develop showcase image -->
@@ -1516,7 +1519,7 @@
       <div class="footer__container" id="js-footer-container">
         <div class="footer__top">
           <h2 class="footer__title">Lets work together</h2>
-          <a href="#" class="footer__cta">Contact Us</a>
+          <a href="contact.html" class="footer__cta">Contact Us</a>
         </div>
 
         <div class="footer__bottom">
@@ -1664,10 +1667,6 @@
         e.preventDefault();
         navMobile.classList.remove('is-open');
         navScrollTo(servicesSection.offsetTop + 4 * PIN_HEIGHT);
-      });
-      document.getElementById('js-nav-mobile-contact').addEventListener('click', function (e) {
-        e.preventDefault();
-        navMobile.classList.remove('is-open');
       });
 
       var rawY      = 0;

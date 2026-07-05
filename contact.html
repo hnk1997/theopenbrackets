@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tell us about your project. The Open Brackets is a design and development studio that turns complex problems into refined digital products." />
+  <meta name="theme-color" content="#0c0906" />
+  <meta property="og:title" content="Contact — theopenbrackets" />
+  <meta property="og:description" content="This could be the start of something incredible. Tell us about your project." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="Background.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact — theopenbrackets" />
+  <meta name="twitter:description" content="Tell us about your project." />
+  <meta name="twitter:image" content="Background.webp" />
+  <title>Contact Us — theopenbrackets</title>
+  <link rel="icon" type="image/png" href="Favicon.png" />
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@300,500&f[]=general-sans@300&display=swap" />
+  <style>
+
+    /* ── SMOOTH CROSS-PAGE NAVIGATION ──
+       Persists the nav bar across full-page loads so it doesn't flash/reload
+       when navigating between index.html and contact.html. */
+    @view-transition {
+      navigation: auto;
+    }
+
+    /* ── ENTRANCE KEYFRAMES ────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUpBtn {
+      from { opacity: 0; translate: 0 28px; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+
+    /* Shared gradient hover fill — used by all CTA/button elements */
+    .nav__cta::after,
+    .contact-form__submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, #F4632A, #8E2800);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: #0c0906;
+      font-family: 'Clash Display', sans-serif;
+    }
+
+    /* ── CUSTOM CURSOR ─────────────────────────────────── */
+    @media (pointer: fine) {
+      a, button, [role="button"] {
+        cursor: none !important;
+      }
+
+      .custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        margin-left: -12px;
+        margin-top: -12px;
+        pointer-events: none;
+        z-index: 9999;
+        will-change: transform;
+      }
+
+      .custom-cursor__inner {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, opacity;
+      }
+
+      .custom-cursor__inner.is-visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ── FIXED BACKGROUND (sits behind everything, no video on this page) ─── */
+    .bg-fixed {
+      position: fixed;
+      inset: 0;
+      background-color: #050301;
+      background-image:
+        radial-gradient(120% 65% at 50% 82%, rgba(244, 99, 42, 0.175) 0%, rgba(244, 99, 42, 0.07) 40%, rgba(244, 99, 42, 0) 72%),
+        radial-gradient(70% 40% at 50% 96%, rgba(244, 99, 42, 0.11) 0%, rgba(244, 99, 42, 0) 75%);
+      filter: blur(150px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── STICKY NAV ────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      view-transition-name: main-nav;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 44px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.0) 100%);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    }
+
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav__logo img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav__links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Clash Display', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav__links a:hover {
+      color: #F4632A;
+    }
+
+    .nav__cta {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Clash Display', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid #ffffff;
+      padding: 11px 22px;
+      overflow: hidden;
+      isolation: isolate;
+      transition: color 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.38s ease,
+                  transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .nav__cta:hover {
+      color: #ffffff;
+      border-color: transparent;
+      transform: scale(1.1);
+    }
+
+    .nav__cta:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav__cta:active {
+      transform: scale(0.96);
+      transition: transform 0.1s ease, color 0.38s ease, border-color 0.38s ease;
+    }
+
+    /* ── MOBILE NAV ── */
+    .nav__menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 0;
+    }
+
+    .nav__menu-btn img {
+      display: block;
+      width: 28px;
+      height: 28px;
+    }
+
+    .nav__mobile {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: linear-gradient(to bottom, #F4632A 0%, #8E2800 100%);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 32px 48px;
+      pointer-events: none;
+      transform: translateY(-100%);
+      transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .nav__mobile.is-open {
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .nav__mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-shrink: 0;
+    }
+
+    .nav__mobile-close {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      line-height: 0;
+    }
+
+    .nav__mobile-close img {
+      display: block;
+      width: 59px;
+      height: 59px;
+    }
+
+    .nav__mobile-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      gap: 64px;
+    }
+
+    .nav__mobile-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Clash Display', sans-serif;
+      font-size: 44px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      padding-bottom: 8px;
+    }
+
+    .nav__mobile-links a span {
+      display: block;
+      transform: translateY(110%);
+      transition: transform 0s;
+      position: relative;
+    }
+
+    .nav__mobile-links a span::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      width: 100%;
+      height: 1.5px;
+      background: #ffffff;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .nav__mobile-links a:hover span::after {
+      transform: scaleX(1);
+    }
+
+    .nav__mobile.is-open .nav__mobile-links li:nth-child(1) a span {
+      transform: translateY(0);
+      transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+    }
+
+    .nav__mobile.is-open .nav__mobile-links li:nth-child(2) a span {
+      transform: translateY(0);
+      transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.32s;
+    }
+
+    .nav__mobile.is-open .nav__mobile-links li:nth-child(3) a span {
+      transform: translateY(0);
+      transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.44s;
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        padding: 28px 24px;
+      }
+      .nav__links,
+      .nav__cta {
+        display: none;
+      }
+      .nav__menu-btn {
+        display: block;
+      }
+    }
+
+    /* ── CONTACT ───────────────────────────────────────── */
+    .contact {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 200px 44px 140px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .contact__inner {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .contact__title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 56px;
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      text-align: center;
+      margin: 0 0 64px;
+      animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s both;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.32s both;
+    }
+
+    .contact-form__group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-form__label {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .contact-form__label .contact-form__optional {
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 300;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-left: 6px;
+    }
+
+    .contact-form__input,
+    .contact-form__textarea,
+    .contact-form__select {
+      width: 100%;
+      font-family: 'General Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: grayscale(40%);
+      -webkit-backdrop-filter: grayscale(40%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+      padding: 16px 18px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .contact-form__input::placeholder,
+    .contact-form__textarea::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .contact-form__input:focus,
+    .contact-form__textarea:focus,
+    .contact-form__select:focus {
+      outline: none;
+      border-color: #F4632A;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+        0 0 0 3px rgba(244, 99, 42, 0.18);
+    }
+
+    .contact-form__textarea {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.6;
+    }
+
+    .contact-form__select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23ffffff' d='M4 6l4 4 4-4z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 12px;
+      cursor: pointer;
+    }
+
+    .contact-form__phone-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .contact-form__select--country {
+      flex: 0 0 150px;
+      padding-right: 34px;
+    }
+
+    .contact-form__phone-row .contact-form__input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .contact-form__error {
+      display: none;
+      font-family: 'General Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #FF6B5B;
+      margin-top: 10px;
+    }
+
+    .contact-form__group.is-invalid .contact-form__input,
+    .contact-form__group.is-invalid .contact-form__textarea,
+    .contact-form__group.is-invalid .contact-form__select {
+      border-color: #FF6B5B;
+    }
+
+    .contact-form__group.is-invalid .contact-form__error {
+      display: block;
+    }
+
+    /* ── Budget slider ── */
+    .contact-form__budget-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .contact-form__budget-value {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .contact-form__range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .contact-form__range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+      border: none;
+      transition: transform 0.2s ease;
+    }
+
+    .contact-form__range::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .contact-form__range::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+      border: none;
+      transition: transform 0.2s ease;
+    }
+
+    .contact-form__range::-moz-range-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .contact-form__range::-moz-range-track {
+      height: 4px;
+      border-radius: 2px;
+      background: transparent;
+    }
+
+    .contact-form__budget-caption {
+      font-family: 'General Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 18px;
+    }
+
+    /* ── Submit + banners ── */
+    .contact-form__submit {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Clash Display', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid #ffffff;
+      background: transparent;
+      padding: 17px 52px;
+      overflow: hidden;
+      isolation: isolate;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.4s ease,
+                  transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.3s ease;
+    }
+
+    .contact-form__submit:hover {
+      color: #ffffff;
+      border-color: transparent;
+      transform: scale(1.05);
+    }
+
+    .contact-form__submit:hover::after {
+      transform: scaleX(1);
+    }
+
+    .contact-form__submit:active {
+      transform: scale(0.96);
+      transition: transform 0.1s ease, color 0.4s ease, border-color 0.4s ease;
+    }
+
+    .contact-form__submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .contact-form__submit:disabled:hover::after {
+      transform: scaleX(0);
+    }
+
+    .contact-form__banner {
+      display: none;
+      font-family: 'General Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 18px 20px;
+      border: 1px solid;
+    }
+
+    .contact-form__banner.is-visible {
+      display: block;
+    }
+
+    .contact-form__banner--success {
+      color: #ffffff;
+      border-color: rgba(120, 220, 150, 0.5);
+      background: rgba(120, 220, 150, 0.08);
+    }
+
+    .contact-form__banner--error {
+      color: #ffffff;
+      border-color: rgba(255, 107, 91, 0.5);
+      background: rgba(255, 107, 91, 0.08);
+    }
+
+    @media (max-width: 768px) {
+      .contact {
+        padding: 140px 24px 96px;
+      }
+      .contact__title {
+        font-size: 34px;
+        margin-bottom: 44px;
+      }
+      .contact-form__phone-row {
+        flex-direction: column;
+      }
+      .contact-form__select--country {
+        flex: 1 1 auto;
+      }
+      .contact-form__submit {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="custom-cursor" id="js-cursor">
+    <div class="custom-cursor__inner" id="js-cursor-inner">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="11.5" stroke="white"/>
+        <circle cx="11.9999" cy="11.9999" r="7.2" fill="white"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Fixed background glow (no video on this page) -->
+  <div class="bg-fixed"></div>
+
+  <!-- Sticky nav -->
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">
+      <img src="Logo White.svg" alt="The Open Brackets" />
+    </a>
+    <ul class="nav__links">
+      <li><a href="index.html#js-case-studies">Work</a></li>
+      <li><a href="index.html#js-services">Services</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+    <button class="nav__menu-btn" id="js-nav-menu-btn" aria-label="Open menu">
+      <img src="Icons/mdi-light_menu.svg" alt="" />
+    </button>
+  </nav>
+
+  <!-- Mobile nav overlay -->
+  <div class="nav__mobile" id="js-nav-mobile">
+    <div class="nav__mobile-header">
+      <button class="nav__mobile-close" id="js-nav-mobile-close" aria-label="Close menu">
+        <img src="Icons/bitcoin-icons_cross-outline.svg" alt="" />
+      </button>
+    </div>
+    <ul class="nav__mobile-links">
+      <li><a href="index.html#js-case-studies"><span>Work</span></a></li>
+      <li><a href="index.html#js-services"><span>Services</span></a></li>
+      <li><a href="contact.html"><span>Contact Us</span></a></li>
+    </ul>
+  </div>
+
+  <!-- Contact -->
+  <section class="contact">
+    <div class="contact__inner">
+      <h1 class="contact__title">This could be the start of something incredible</h1>
+
+      <form class="contact-form" id="js-contact-form" novalidate>
+
+        <div class="contact-form__group">
+          <label class="contact-form__label" for="cf-name">Name / Company Name <span class="contact-form__optional">(Optional)</span></label>
+          <input class="contact-form__input" type="text" id="cf-name" name="name" placeholder="Jane Doe or Acme Inc." autocomplete="name" />
+        </div>
+
+        <div class="contact-form__group" id="cf-email-group">
+          <label class="contact-form__label" for="cf-email">Email</label>
+          <input class="contact-form__input" type="email" id="cf-email" name="email" placeholder="you@company.com" autocomplete="email" required />
+          <p class="contact-form__error" id="cf-email-error">Please enter a valid email address.</p>
+        </div>
+
+        <div class="contact-form__group" id="cf-phone-group">
+          <label class="contact-form__label" for="cf-phone">Phone Number <span class="contact-form__optional">(Optional)</span></label>
+          <div class="contact-form__phone-row">
+            <select class="contact-form__select contact-form__select--country" id="cf-phone-country" name="phone_country" aria-label="Country code"></select>
+            <input class="contact-form__input" type="tel" id="cf-phone" name="phone" placeholder="50 123 4567" autocomplete="tel-national" />
+          </div>
+          <p class="contact-form__error" id="cf-phone-error">Please enter a valid phone number.</p>
+        </div>
+
+        <div class="contact-form__group" id="cf-message-group">
+          <label class="contact-form__label" for="cf-message">Tell us about your project</label>
+          <textarea class="contact-form__textarea" id="cf-message" name="message" placeholder="What are you building, and what does success look like?" required></textarea>
+          <p class="contact-form__error" id="cf-message-error">Please tell us a little about your project.</p>
+        </div>
+
+        <div class="contact-form__group">
+          <div class="contact-form__budget-head">
+            <label class="contact-form__label" for="cf-budget" style="margin-bottom: 0;">Budget <span class="contact-form__optional">(Optional)</span></label>
+            <span class="contact-form__budget-value" id="cf-budget-value">AED 50,000</span>
+          </div>
+          <input class="contact-form__range" type="range" id="cf-budget" name="budget" min="5000" max="100000" step="500" value="50000" />
+          <p class="contact-form__budget-caption">A transparent budget that will help us ensure expectations are met. Ballparks are fine.</p>
+        </div>
+
+        <p class="contact-form__banner" id="cf-banner"></p>
+
+        <button class="contact-form__submit" type="submit" id="cf-submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+
+      /* ── Mobile nav ── */
+      var navMobile = document.getElementById('js-nav-mobile');
+      document.getElementById('js-nav-menu-btn').addEventListener('click', function () {
+        navMobile.classList.add('is-open');
+      });
+      document.getElementById('js-nav-mobile-close').addEventListener('click', function () {
+        navMobile.classList.remove('is-open');
+      });
+
+      /* ── Custom cursor ── */
+      var cursorEl      = document.getElementById('js-cursor');
+      var cursorInnerEl = document.getElementById('js-cursor-inner');
+      var cursorX = -100, cursorY = -100, cursorLerpX = -100, cursorLerpY = -100;
+
+      window.addEventListener('mousemove', function (e) {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+      }, { passive: true });
+
+      document.addEventListener('mouseover', function (e) {
+        var target = e.target.closest('a, button, [role="button"]');
+        cursorInnerEl.classList.toggle('is-visible', !!target);
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', function () {
+        cursorInnerEl.classList.remove('is-visible');
+      }, { passive: true });
+
+      function cursorLoop() {
+        cursorLerpX += (cursorX - cursorLerpX) * 0.2;
+        cursorLerpY += (cursorY - cursorLerpY) * 0.2;
+        cursorEl.style.transform = 'translate(' + cursorLerpX.toFixed(2) + 'px, ' + cursorLerpY.toFixed(2) + 'px)';
+        requestAnimationFrame(cursorLoop);
+      }
+      requestAnimationFrame(cursorLoop);
+
+      /* ── Country dial codes ── */
+      var countries = [
+        ["United Arab Emirates","+971"],["Saudi Arabia","+966"],["Kuwait","+965"],["Qatar","+974"],
+        ["Bahrain","+973"],["Oman","+968"],["Jordan","+962"],["Lebanon","+961"],["Egypt","+20"],
+        ["Iraq","+964"],["Israel","+972"],["Turkey","+90"],["United States","+1"],["Canada","+1"],
+        ["United Kingdom","+44"],["Ireland","+353"],["Germany","+49"],["France","+33"],["Spain","+34"],
+        ["Portugal","+351"],["Italy","+39"],["Netherlands","+31"],["Belgium","+32"],["Switzerland","+41"],
+        ["Austria","+43"],["Sweden","+46"],["Norway","+47"],["Denmark","+45"],["Finland","+358"],
+        ["Poland","+48"],["Greece","+30"],["Russia","+7"],["Ukraine","+380"],["Romania","+40"],
+        ["Czech Republic","+420"],["Hungary","+36"],["India","+91"],["Pakistan","+92"],
+        ["Bangladesh","+880"],["Sri Lanka","+94"],["Nepal","+977"],["China","+86"],["Japan","+81"],
+        ["South Korea","+82"],["Hong Kong","+852"],["Singapore","+65"],["Malaysia","+60"],
+        ["Indonesia","+62"],["Philippines","+63"],["Thailand","+66"],["Vietnam","+84"],
+        ["Australia","+61"],["New Zealand","+64"],["South Africa","+27"],["Nigeria","+234"],
+        ["Kenya","+254"],["Morocco","+212"],["Algeria","+213"],["Tunisia","+216"],["Brazil","+55"],
+        ["Mexico","+52"],["Argentina","+54"],["Chile","+56"],["Colombia","+57"],["Peru","+51"]
+      ];
+      var countrySelect = document.getElementById('cf-phone-country');
+      countries.forEach(function (c) {
+        var opt = document.createElement('option');
+        opt.value = c[1];
+        opt.textContent = c[0] + ' (' + c[1] + ')';
+        if (c[0] === 'United Arab Emirates') opt.selected = true;
+        countrySelect.appendChild(opt);
+      });
+
+      /* ── Budget slider ── */
+      var budgetInput = document.getElementById('cf-budget');
+      var budgetValue = document.getElementById('cf-budget-value');
+      function formatBudget() {
+        var val = parseInt(budgetInput.value, 10);
+        var max = parseInt(budgetInput.max, 10);
+        var formatted = 'AED ' + val.toLocaleString('en-US');
+        if (val >= max) formatted += '+';
+        budgetValue.textContent = formatted;
+        var pct = ((val - budgetInput.min) / (max - budgetInput.min)) * 100;
+        budgetInput.style.background =
+          'linear-gradient(to right, #F4632A 0%, #F4632A ' + pct + '%, rgba(255,255,255,0.15) ' + pct + '%, rgba(255,255,255,0.15) 100%)';
+      }
+      budgetInput.addEventListener('input', formatBudget);
+      formatBudget();
+
+      /* ── Form validation + submission ──
+         Wired to Formspree — sign up at https://formspree.io using
+         theopenbrackets@gmail.com, create a form there, and replace
+         YOUR_FORM_ID below with that form's real endpoint ID. Submissions
+         will then land in the theopenbrackets@gmail.com inbox. */
+      var FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+      var form         = document.getElementById('js-contact-form');
+      var submitBtn    = document.getElementById('cf-submit');
+      var banner       = document.getElementById('cf-banner');
+      var emailInput   = document.getElementById('cf-email');
+      var phoneInput   = document.getElementById('cf-phone');
+      var messageInput = document.getElementById('cf-message');
+
+      function setInvalid(groupId, isInvalid) {
+        document.getElementById(groupId).classList.toggle('is-invalid', isInvalid);
+      }
+
+      function showBanner(kind, text) {
+        banner.textContent = text;
+        banner.className = 'contact-form__banner is-visible contact-form__banner--' + kind;
+      }
+
+      function hideBanner() {
+        banner.className = 'contact-form__banner';
+      }
+
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      var phonePattern = /^[0-9\s\-()]{6,15}$/;
+
+      function validate() {
+        var valid = true;
+        var firstInvalid = null;
+
+        var emailVal = emailInput.value.trim();
+        if (!emailVal || !emailPattern.test(emailVal)) {
+          setInvalid('cf-email-group', true);
+          valid = false;
+          firstInvalid = firstInvalid || emailInput;
+        } else {
+          setInvalid('cf-email-group', false);
+        }
+
+        var phoneVal = phoneInput.value.trim();
+        if (phoneVal && !phonePattern.test(phoneVal)) {
+          setInvalid('cf-phone-group', true);
+          valid = false;
+          firstInvalid = firstInvalid || phoneInput;
+        } else {
+          setInvalid('cf-phone-group', false);
+        }
+
+        var messageVal = messageInput.value.trim();
+        if (!messageVal) {
+          setInvalid('cf-message-group', true);
+          valid = false;
+          firstInvalid = firstInvalid || messageInput;
+        } else {
+          setInvalid('cf-message-group', false);
+        }
+
+        if (firstInvalid) firstInvalid.focus();
+        return valid;
+      }
+
+      [emailInput, phoneInput, messageInput].forEach(function (el) {
+        el.addEventListener('input', function () {
+          hideBanner();
+          validate();
+        });
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hideBanner();
+
+        if (!validate()) {
+          showBanner('error', 'Please fix the highlighted fields before sending.');
+          return;
+        }
+
+        var payload = {
+          name: document.getElementById('cf-name').value.trim(),
+          email: emailInput.value.trim(),
+          phone: phoneInput.value.trim() ? (countrySelect.value + ' ' + phoneInput.value.trim()) : '',
+          message: messageInput.value.trim(),
+          budget_aed: budgetInput.value
+        };
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            if (res.ok) {
+              form.reset();
+              formatBudget();
+              countrySelect.value = '+971';
+              showBanner('success', "Thanks — we'll be in touch shortly.");
+              submitBtn.textContent = 'Message Sent';
+            } else {
+              throw new Error('Request failed');
+            }
+          })
+          .catch(function () {
+            showBanner('error', 'Something went wrong. Please try again in a moment.');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+          });
+      });
+
+    })();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function (err) {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
