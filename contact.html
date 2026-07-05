@@ -66,12 +66,17 @@
     }
 
     /* ── CUSTOM CURSOR ─────────────────────────────────── */
+    .custom-cursor {
+      display: none;
+    }
+
     @media (pointer: fine) {
       a, button, [role="button"] {
         cursor: none !important;
       }
 
       .custom-cursor {
+        display: block;
         position: fixed;
         top: 0;
         left: 0;
