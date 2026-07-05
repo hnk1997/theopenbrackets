@@ -114,6 +114,7 @@
       filter: blur(150px);
       z-index: 0;
       pointer-events: none;
+      will-change: opacity;
     }
 
     .bg-purple {
@@ -127,6 +128,7 @@
       z-index: 0;
       pointer-events: none;
       opacity: 0;
+      will-change: opacity;
     }
 
     .bg-green {
@@ -140,6 +142,7 @@
       z-index: 0;
       pointer-events: none;
       opacity: 0;
+      will-change: opacity;
     }
 
 
@@ -632,8 +635,8 @@
     }
 
     #js-yap-card .cs-feature__mockup-wrap {
-      width: 22%;
-      max-width: 500px;
+      width: 17.6%;
+      max-width: 400px;
     }
 
     .cs-feature__mockup-wrap img {
@@ -719,6 +722,23 @@
 
     .cs-feature__cta:hover::after {
       transform: scaleX(1);
+    }
+
+    .cs-feature__cta--disabled {
+      color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .cs-feature__cta--disabled:hover {
+      color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: none;
+    }
+
+    .cs-feature__cta--disabled:hover::after {
+      transform: scaleX(0);
     }
 
     .cs-feature__cta:active {
@@ -1249,7 +1269,7 @@
         transform: translateX(-50%);
       }
       #js-yap-card .cs-feature__mockup-wrap {
-        width: 46%;
+        width: 36.8%;
         max-width: none;
       }
     }
@@ -1354,9 +1374,9 @@
         <div class="cs-feature__content" id="js-cs-feature-content">
           <div class="cs-feature__left">
             <h2 class="cs-feature__title">Cadillac IQ</h2>
-            <p class="cs-feature__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum dignissim id velit morbi.</p>
+            <p class="cs-feature__body">All-electric Cadillac SUVs offering luxury design, long range, and powerful performance across the lineup.</p>
           </div>
-          <a href="#" class="cs-feature__cta">View Project</a>
+          <span class="cs-feature__cta cs-feature__cta--disabled" aria-disabled="true">Case Study Coming Soon</span>
         </div>
       </div>
     </section>
@@ -1372,9 +1392,9 @@
         <div class="cs-feature__content" id="js-yap-content">
           <div class="cs-feature__left">
             <h2 class="cs-feature__title">YAP</h2>
-            <p class="cs-feature__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum dignissim id velit morbi.</p>
+            <p class="cs-feature__body">Fintech app delivering fee-free digital accounts, virtual cards, and instant money transfers across the UAE.</p>
           </div>
-          <a href="#" class="cs-feature__cta">View Project</a>
+          <span class="cs-feature__cta cs-feature__cta--disabled" aria-disabled="true">Case Study Coming Soon</span>
         </div>
       </div>
     </section>
@@ -1390,9 +1410,9 @@
         <div class="cs-feature__content" id="js-cs3-content">
           <div class="cs-feature__left">
             <h2 class="cs-feature__title">KFH Capital</h2>
-            <p class="cs-feature__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum dignissim id velit morbi.</p>
+            <p class="cs-feature__body">Kuwait Finance House Capital: the bank's top-tier arm for premium investment banking and asset management.</p>
           </div>
-          <a href="#" class="cs-feature__cta">View Project</a>
+          <span class="cs-feature__cta cs-feature__cta--disabled" aria-disabled="true">Case Study Coming Soon</span>
         </div>
       </div>
     </section>
@@ -1408,9 +1428,9 @@
         <div class="cs-feature__content" id="js-cs4-content">
           <div class="cs-feature__left">
             <h2 class="cs-feature__title">Alfanar</h2>
-            <p class="cs-feature__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum dignissim id velit morbi.</p>
+            <p class="cs-feature__body">Saudi engineering giant powering smart grids, sustainable switchgear, and energy infrastructure worldwide.</p>
           </div>
-          <a href="#" class="cs-feature__cta">View Project</a>
+          <span class="cs-feature__cta cs-feature__cta--disabled" aria-disabled="true">Case Study Coming Soon</span>
         </div>
       </div>
     </section>
@@ -1419,13 +1439,13 @@
     <section class="services" id="js-services">
       <div class="services__inner" id="js-services-inner">
         <h2 class="services__title">What we do</h2>
-        <p class="services__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum.</p>
+        <p class="services__body">Design-led. Code-backed. We turn ideas into interfaces, and interfaces into products people actually want to use.</p>
       </div>
 
       <!-- Design detail — rises from bottom during transition -->
       <div class="services__detail" id="js-services-detail">
         <h2 class="services__detail-title">Design</h2>
-        <p class="services__detail-body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum dignissim id velit morbi.</p>
+        <p class="services__detail-body">Interfaces shaped by real behavior, not decoration. We design systems that hold up under scale.</p>
         <div class="services__tags">
           <span class="services__tag">Brand Identity</span>
           <span class="services__tag">UI / UX Design</span>
@@ -1444,7 +1464,7 @@
       <!-- Develop detail — rises from bottom after Design exits -->
       <div class="services__detail" id="js-develop-detail">
         <h2 class="services__detail-title">Develop</h2>
-        <p class="services__detail-body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl. Semper purus lorem euismod id ipsum dignissim id velit morbi.</p>
+        <p class="services__detail-body">Design without engineering is just a picture. We write the code that turns concepts into fast, reliable, production-ready products.</p>
         <div class="services__tags">
           <span class="services__tag">iOS Development</span>
           <span class="services__tag">Android Development</span>
@@ -1467,7 +1487,7 @@
     <section class="clients" id="js-clients">
       <div class="clients__inner" id="js-clients-inner">
         <h2 class="clients__title">Our clients</h2>
-        <p class="clients__body">Lorem ipsum dolor sit amet consectetur. Augue scelerisque cursus nunc facilisi nisl.</p>
+        <p class="clients__body">Founders and teams who needed more than a vendor.</p>
         <div class="clients__logos">
           <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/NEOM.svg" alt="NEOM"></div>
           <div class="clients__logo"><img loading="lazy" decoding="async" src="Client Logos/EIB.svg" alt="Emirates Investment Bank"></div>
@@ -1501,7 +1521,7 @@
 
         <div class="footer__bottom">
           <p class="footer__copyright">@2026 Theopenbrackets</p>
-          <div class="footer__social">
+          <div class="footer__social" style="display: none;">
             <a href="#">LinkedIn</a>
             <a href="#">Instagram</a>
           </div>
@@ -1769,8 +1789,9 @@
 
         /* Fully hide once its slide-off animation completes — its translateX caps at
            110vw but the element itself is wider than that, leaving a permanent sliver
-           visible on the right edge through every section below otherwise. */
-        videoFixed.style.opacity = Math.max(0, 1 - Math.max(0, lerpedY - vh * 2) / (vh * 0.5)).toFixed(3);
+           visible on the right edge through every section below otherwise. Mobile drifts
+           down instead of off to the side, so it has no sliver to hide and stays visible. */
+        videoFixed.style.opacity = vw < 769 ? '1' : Math.max(0, 1 - Math.max(0, lerpedY - vh * 2) / (vh * 0.5)).toFixed(3);
 
         /* ── About text: slide in + subtle upward parallax as CS enters ── */
         var aboutTop = vh - lerpedY;
