@@ -776,7 +776,7 @@
 
       <p class="contact__email-line">
         Email us at<br />
-        <a href="mailto:hello@theopenbrackets.agency" class="contact__email-cta">hello@theopenbrackets.agency</a>
+        <a href="mailto:hello@theopenbrackets.agency" class="contact__email-cta" id="js-contact-email" data-email="hello@theopenbrackets.agency">hello@theopenbrackets.agency</a>
       </p>
       <p class="contact__or">or</p>
       <p class="contact__form-intro">Fill in the details below</p>
@@ -836,6 +836,20 @@
       });
       document.getElementById('js-nav-mobile-close').addEventListener('click', function () {
         navMobile.classList.remove('is-open');
+      });
+
+      /* ── Contact email: copy to clipboard instead of opening a mail client ── */
+      var contactEmail = document.getElementById('js-contact-email');
+      contactEmail.addEventListener('click', function (e) {
+        e.preventDefault();
+        var email = contactEmail.dataset.email;
+        var originalText = contactEmail.textContent;
+        navigator.clipboard.writeText(email).then(function () {
+          contactEmail.textContent = 'Copied!';
+          setTimeout(function () {
+            contactEmail.textContent = originalText;
+          }, 1500);
+        });
       });
 
       /* ── Custom cursor ── */
