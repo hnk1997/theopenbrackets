@@ -831,14 +831,11 @@
       formatBudget();
 
       /* ── Form validation + submission ──
-         Wired to Formspree — sign up at https://formspree.io using
-         theopenbrackets@gmail.com, create a form there, and replace
-         YOUR_FORM_ID below with that form's real endpoint ID. Submissions
-         will then land in the theopenbrackets@gmail.com inbox. */
-      var FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+         No backend — the submit button opens the visitor's own email app
+         with a pre-filled message addressed to theopenbrackets@gmail.com. */
+      var CONTACT_EMAIL = 'theopenbrackets@gmail.com';
 
       var form         = document.getElementById('js-contact-form');
-      var submitBtn    = document.getElementById('cf-submit');
       var banner       = document.getElementById('cf-banner');
       var emailInput   = document.getElementById('cf-email');
       var phoneInput   = document.getElementById('cf-phone');
@@ -911,38 +908,31 @@
           return;
         }
 
-        var payload = {
-          name: document.getElementById('cf-name').value.trim(),
-          email: emailInput.value.trim(),
-          phone: phoneInput.value.trim() ? (countrySelect.value + ' ' + phoneInput.value.trim()) : '',
-          message: messageInput.value.trim(),
-          budget_aed: budgetInput.value
-        };
+        var name    = document.getElementById('cf-name').value.trim();
+        var email   = emailInput.value.trim();
+        var phone   = phoneInput.value.trim() ? (countrySelect.value + ' ' + phoneInput.value.trim()) : '';
+        var message = messageInput.value.trim();
+        var budget  = budgetValue.textContent;
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
+        var subject = 'New project inquiry' + (name ? ' from ' + name : '');
+        var bodyLines = [
+          'Name/Company: ' + (name || '—'),
+          'Email: ' + email,
+          'Phone: ' + (phone || '—'),
+          'Budget: ' + budget,
+          '',
+          'Project details:',
+          message
+        ];
 
-        fetch(FORM_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-          .then(function (res) {
-            if (res.ok) {
-              form.reset();
-              formatBudget();
-              countrySelect.value = '+971';
-              showBanner('success', "Thanks — we'll be in touch shortly.");
-              submitBtn.textContent = 'Message Sent';
-            } else {
-              throw new Error('Request failed');
-            }
-          })
-          .catch(function () {
-            showBanner('error', 'Something went wrong. Please try again in a moment.');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-          });
+        var mailtoLink =
+          'mailto:' + CONTACT_EMAIL +
+          '?subject=' + encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(bodyLines.join('\n'));
+
+        window.location.href = mailtoLink;
+
+        showBanner('success', 'Your email app should now be open with your message ready — hit send there to reach us.');
       });
 
     })();
