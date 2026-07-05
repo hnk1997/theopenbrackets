@@ -1529,9 +1529,8 @@
 
         <div class="footer__bottom">
           <p class="footer__copyright">@2026 Theopenbrackets</p>
-          <div class="footer__social" style="display: none;">
-            <a href="#">LinkedIn</a>
-            <a href="#">Instagram</a>
+          <div class="footer__social">
+            <a href="mailto:hello@theopenbrackets.agency" id="js-footer-email" data-email="hello@theopenbrackets.agency">hello@theopenbrackets.agency</a>
           </div>
           <a href="#" class="footer__logo">
             <img src="Logo White.svg" alt="The Open Brackets" />
@@ -1672,6 +1671,20 @@
         e.preventDefault();
         navMobile.classList.remove('is-open');
         navScrollTo(servicesSection.offsetTop + 4 * PIN_HEIGHT);
+      });
+
+      // Footer email: copy to clipboard instead of opening a mail client
+      var footerEmail = document.getElementById('js-footer-email');
+      footerEmail.addEventListener('click', function (e) {
+        e.preventDefault();
+        var email = footerEmail.dataset.email;
+        var originalText = footerEmail.textContent;
+        navigator.clipboard.writeText(email).then(function () {
+          footerEmail.textContent = 'Copied!';
+          setTimeout(function () {
+            footerEmail.textContent = originalText;
+          }, 1500);
+        });
       });
 
       var rawY      = 0;
