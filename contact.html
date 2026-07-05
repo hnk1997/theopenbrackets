@@ -373,6 +373,51 @@
       animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s both;
     }
 
+    .contact__email-line {
+      font-family: 'General Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      line-height: 1.6;
+      margin: 0 0 24px;
+      animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.22s both;
+    }
+
+    .contact__email-cta {
+      display: inline-block;
+      margin-top: 16px;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'Clash Display', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .contact__or {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: center;
+      margin: 0 0 12px;
+      animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.26s both;
+    }
+
+    .contact__form-intro {
+      font-family: 'General Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      margin: 0 0 40px;
+      animation: fadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.29s both;
+    }
+
     .contact-form {
       display: flex;
       flex-direction: column;
@@ -574,7 +619,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      align-self: flex-start;
+      align-self: center;
       color: #ffffff;
       text-decoration: none;
       font-family: 'Clash Display', sans-serif;
@@ -652,7 +697,18 @@
       }
       .contact__title {
         font-size: 34px;
-        margin-bottom: 44px;
+        margin-bottom: 24px;
+      }
+      .contact__email-line {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .contact__or {
+        margin-bottom: 10px;
+      }
+      .contact__form-intro {
+        font-size: 16px;
+        margin-bottom: 28px;
       }
       .contact-form__phone-row {
         flex-direction: column;
@@ -718,11 +774,19 @@
     <div class="contact__inner">
       <h1 class="contact__title">This could be the start of something incredible</h1>
 
+      <p class="contact__email-line">
+        Email us at<br />
+        <a href="mailto:hello@theopenbrackets.agency" class="contact__email-cta">hello@theopenbrackets.agency</a>
+      </p>
+      <p class="contact__or">or</p>
+      <p class="contact__form-intro">Fill in the details below</p>
+
       <form class="contact-form" id="js-contact-form" novalidate>
 
-        <div class="contact-form__group">
-          <label class="contact-form__label" for="cf-name">Name / Company Name <span class="contact-form__optional">(Optional)</span></label>
-          <input class="contact-form__input" type="text" id="cf-name" name="name" placeholder="Jane Doe or Acme Inc." autocomplete="name" />
+        <div class="contact-form__group" id="cf-name-group">
+          <label class="contact-form__label" for="cf-name">Name / Company Name</label>
+          <input class="contact-form__input" type="text" id="cf-name" name="name" placeholder="Jane Doe or Acme Inc." autocomplete="name" required />
+          <p class="contact-form__error" id="cf-name-error">Please tell us your name or company name.</p>
         </div>
 
         <div class="contact-form__group" id="cf-email-group">
@@ -853,6 +917,7 @@
       var form         = document.getElementById('js-contact-form');
       var submitBtn    = document.getElementById('cf-submit');
       var banner       = document.getElementById('cf-banner');
+      var nameInput    = document.getElementById('cf-name');
       var emailInput   = document.getElementById('cf-email');
       var phoneInput   = document.getElementById('cf-phone');
       var messageInput = document.getElementById('cf-message');
@@ -876,6 +941,15 @@
       function validate() {
         var valid = true;
         var firstInvalid = null;
+
+        var nameVal = nameInput.value.trim();
+        if (!nameVal) {
+          setInvalid('cf-name-group', true);
+          valid = false;
+          firstInvalid = firstInvalid || nameInput;
+        } else {
+          setInvalid('cf-name-group', false);
+        }
 
         var emailVal = emailInput.value.trim();
         if (!emailVal || !emailPattern.test(emailVal)) {
@@ -908,7 +982,7 @@
         return valid;
       }
 
-      [emailInput, phoneInput, messageInput].forEach(function (el) {
+      [nameInput, emailInput, phoneInput, messageInput].forEach(function (el) {
         el.addEventListener('input', function () {
           hideBanner();
           validate();
@@ -925,7 +999,7 @@
         }
 
         var payload = {
-          name: document.getElementById('cf-name').value.trim(),
+          name: nameInput.value.trim(),
           email: emailInput.value.trim(),
           phone: phoneInput.value.trim() ? (countrySelect.value + ' ' + phoneInput.value.trim()) : '',
           message: messageInput.value.trim(),
