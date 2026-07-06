@@ -853,6 +853,20 @@
         navMenuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       });
 
+      // Every mobile nav link navigates to a different page — let the
+      // menu animate closed first instead of cutting away instantly.
+      document.querySelectorAll('.nav__mobile-links a').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          var href = this.getAttribute('href');
+          navMobile.classList.remove('is-open');
+          navMenuBtn.classList.remove('is-open');
+          navMenuBtn.setAttribute('aria-expanded', 'false');
+          navMenuBtn.setAttribute('aria-label', 'Open menu');
+          setTimeout(function () { window.location.href = href; }, 700);
+        });
+      });
+
       /* ── Contact email: copy to clipboard instead of opening a mail client ── */
       var contactEmail = document.getElementById('js-contact-email');
       contactEmail.addEventListener('click', function (e) {

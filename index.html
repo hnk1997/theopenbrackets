@@ -1665,6 +1665,15 @@
         navScrollTo(servicesSection.offsetTop + 4 * PIN_HEIGHT);
       });
 
+      // Deep-link support — contact.html's Work/Services links land here with a hash.
+      // Native hash-jump doesn't work with this fixed-position virtual-scroll setup,
+      // so route it through navScrollTo just like the in-page nav buttons do.
+      if (window.location.hash === '#js-case-studies') {
+        navScrollTo(document.getElementById('js-case-studies').offsetTop);
+      } else if (window.location.hash === '#js-services') {
+        navScrollTo(servicesSection.offsetTop + 4 * PIN_HEIGHT);
+      }
+
       // Mobile nav
       var navMobile  = document.getElementById('js-nav-mobile');
       var navMenuBtn = document.getElementById('js-nav-menu-btn');
@@ -1686,6 +1695,12 @@
         e.preventDefault();
         setMenuOpen(false);
         navScrollTo(servicesSection.offsetTop + 4 * PIN_HEIGHT);
+      });
+      document.getElementById('js-nav-mobile-contact').addEventListener('click', function (e) {
+        e.preventDefault();
+        var href = this.getAttribute('href');
+        setMenuOpen(false);
+        setTimeout(function () { window.location.href = href; }, 700);
       });
 
       // Footer email: copy to clipboard instead of opening a mail client
