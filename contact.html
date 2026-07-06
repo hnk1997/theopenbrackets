@@ -216,18 +216,39 @@
     /* ── MOBILE NAV ── */
     .nav__menu-btn {
       display: none;
+      position: relative;
+      width: 28px;
+      height: 28px;
       background: none;
       border: none;
       padding: 0;
       cursor: pointer;
-      flex-shrink: 0;
-      line-height: 0;
+      z-index: 210;
     }
 
-    .nav__menu-btn img {
-      display: block;
-      width: 28px;
-      height: 28px;
+    .nav__menu-bar {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #ffffff;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav__menu-bar:nth-child(1) {
+      top: 9px;
+    }
+
+    .nav__menu-bar:nth-child(2) {
+      top: 17px;
+    }
+
+    .nav__menu-btn.is-open .nav__menu-bar:nth-child(1) {
+      transform: translateY(4px) rotate(45deg);
+    }
+
+    .nav__menu-btn.is-open .nav__menu-bar:nth-child(2) {
+      transform: translateY(-4px) rotate(-45deg);
     }
 
     .nav__mobile {
@@ -246,27 +267,6 @@
     .nav__mobile.is-open {
       transform: translateY(0);
       pointer-events: all;
-    }
-
-    .nav__mobile-header {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-shrink: 0;
-    }
-
-    .nav__mobile-close {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      line-height: 0;
-    }
-
-    .nav__mobile-close img {
-      display: block;
-      width: 59px;
-      height: 59px;
     }
 
     .nav__mobile-links {
@@ -336,6 +336,8 @@
     @media (max-width: 768px) {
       .nav {
         padding: 28px 24px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
       .nav__links,
       .nav__cta {
@@ -343,6 +345,21 @@
       }
       .nav__menu-btn {
         display: block;
+        position: fixed;
+        top: 30px;
+        right: 24px;
+        z-index: 210;
+      }
+
+      /* ── Lighter GPU load on mobile ── */
+      .bg-fixed {
+        filter: blur(65px);
+      }
+      .contact-form__input,
+      .contact-form__textarea,
+      .contact-form__select {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
     }
 
@@ -721,6 +738,21 @@
         padding-left: 0;
         padding-right: 0;
       }
+
+      /* ── No hover/tap interactions on CTAs — cheaper repaints, no sticky-hover ── */
+      .nav__cta:hover,
+      .contact-form__submit:hover {
+        border-color: #ffffff;
+        transform: none;
+      }
+      .nav__cta:hover::after,
+      .contact-form__submit:hover::after {
+        transform: scaleX(0);
+      }
+      .nav__cta:active,
+      .contact-form__submit:active {
+        transform: none;
+      }
     }
 
   </style>
@@ -741,7 +773,7 @@
   <div class="bg-fixed"></div>
 
   <!-- Sticky nav -->
-  <nav class="nav">
+  <nav class="nav" id="js-nav">
     <a href="index.html" class="nav__logo">
       <img src="Logo White.svg" alt="The Open Brackets" />
     </a>
@@ -750,18 +782,16 @@
       <li><a href="index.html#js-services">Services</a></li>
       <li><a href="contact.html">Contact Us</a></li>
     </ul>
-    <button class="nav__menu-btn" id="js-nav-menu-btn" aria-label="Open menu">
-      <img src="Icons/mdi-light_menu.svg" alt="" />
-    </button>
   </nav>
+
+  <!-- Mobile menu toggle — sibling of nav/overlay so it can stack above both -->
+  <button class="nav__menu-btn" id="js-nav-menu-btn" aria-label="Open menu" aria-expanded="false">
+    <span class="nav__menu-bar"></span>
+    <span class="nav__menu-bar"></span>
+  </button>
 
   <!-- Mobile nav overlay -->
   <div class="nav__mobile" id="js-nav-mobile">
-    <div class="nav__mobile-header">
-      <button class="nav__mobile-close" id="js-nav-mobile-close" aria-label="Close menu">
-        <img src="Icons/bitcoin-icons_cross-outline.svg" alt="" />
-      </button>
-    </div>
     <ul class="nav__mobile-links">
       <li><a href="index.html#js-case-studies"><span>Work</span></a></li>
       <li><a href="index.html#js-services"><span>Services</span></a></li>
@@ -830,12 +860,14 @@
     (function () {
 
       /* ── Mobile nav ── */
-      var navMobile = document.getElementById('js-nav-mobile');
-      document.getElementById('js-nav-menu-btn').addEventListener('click', function () {
-        navMobile.classList.add('is-open');
-      });
-      document.getElementById('js-nav-mobile-close').addEventListener('click', function () {
-        navMobile.classList.remove('is-open');
+      var navMobile  = document.getElementById('js-nav-mobile');
+      var navMenuBtn = document.getElementById('js-nav-menu-btn');
+      navMenuBtn.addEventListener('click', function () {
+        var open = !navMobile.classList.contains('is-open');
+        navMobile.classList.toggle('is-open', open);
+        navMenuBtn.classList.toggle('is-open', open);
+        navMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        navMenuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       });
 
       /* ── Contact email: copy to clipboard instead of opening a mail client ── */

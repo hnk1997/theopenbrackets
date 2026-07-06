@@ -309,18 +309,39 @@
     /* ── MOBILE NAV ── */
     .nav__menu-btn {
       display: none;
+      position: relative;
+      width: 28px;
+      height: 28px;
       background: none;
       border: none;
       padding: 0;
       cursor: pointer;
-      flex-shrink: 0;
-      line-height: 0;
+      z-index: 210;
     }
 
-    .nav__menu-btn img {
-      display: block;
-      width: 28px;
-      height: 28px;
+    .nav__menu-bar {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #ffffff;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav__menu-bar:nth-child(1) {
+      top: 9px;
+    }
+
+    .nav__menu-bar:nth-child(2) {
+      top: 17px;
+    }
+
+    .nav__menu-btn.is-open .nav__menu-bar:nth-child(1) {
+      transform: translateY(4px) rotate(45deg);
+    }
+
+    .nav__menu-btn.is-open .nav__menu-bar:nth-child(2) {
+      transform: translateY(-4px) rotate(-45deg);
     }
 
     .nav__mobile {
@@ -339,27 +360,6 @@
     .nav__mobile.is-open {
       transform: translateY(0);
       pointer-events: all;
-    }
-
-    .nav__mobile-header {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-shrink: 0;
-    }
-
-    .nav__mobile-close {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      line-height: 0;
-    }
-
-    .nav__mobile-close img {
-      display: block;
-      width: 59px;
-      height: 59px;
     }
 
     .nav__mobile-links {
@@ -433,6 +433,8 @@
     @media (max-width: 768px) {
       .nav {
         padding: 28px 24px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
       .nav__links,
       .nav__cta {
@@ -440,6 +442,22 @@
       }
       .nav__menu-btn {
         display: block;
+        position: fixed;
+        top: 30px;
+        right: 24px;
+        z-index: 210;
+      }
+
+      /* ── Lighter GPU load on mobile ── */
+      .bg-fixed,
+      .bg-purple,
+      .bg-green {
+        filter: blur(65px);
+      }
+      .services__tag,
+      .footer__container {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
     }
 
@@ -689,10 +707,6 @@
       line-height: 1.65;
       max-width: 480px;
       margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .cs-feature__cta {
@@ -812,10 +826,6 @@
       line-height: 1.65;
       max-width: 480px;
       margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .services__visual {
@@ -857,10 +867,6 @@
       color: #ffffff;
       line-height: 1.65;
       margin: 0 0 28px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .services__tags {
@@ -1259,10 +1265,6 @@
       }
       .cs-feature__body {
         font-size: 18px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
         max-width: 100%;
       }
       .cs-feature__cta {
@@ -1279,6 +1281,27 @@
       #js-yap-card .cs-feature__mockup-wrap {
         width: 36.8%;
         max-width: none;
+      }
+
+      /* ── No hover/tap interactions on CTAs — cheaper repaints, no sticky-hover ── */
+      .nav__cta:hover,
+      .hero__btn:hover,
+      .cs-feature__cta:hover,
+      .footer__cta:hover {
+        border-color: #ffffff;
+        transform: none;
+      }
+      .nav__cta:hover::after,
+      .hero__btn:hover::after,
+      .cs-feature__cta:hover::after,
+      .footer__cta:hover::after {
+        transform: scaleX(0);
+      }
+      .nav__cta:active,
+      .hero__btn:active,
+      .cs-feature__cta:active,
+      .footer__cta:active {
+        transform: none;
       }
     }
 
@@ -1318,7 +1341,7 @@
   </div>
 
   <!-- Sticky nav -->
-  <nav class="nav">
+  <nav class="nav" id="js-nav">
     <a href="#" class="nav__logo" id="js-nav-logo">
       <img src="Logo White.svg" alt="The Open Brackets" />
     </a>
@@ -1327,18 +1350,16 @@
       <li><a href="#" id="js-nav-services">Services</a></li>
       <li><a href="contact.html">Contact Us</a></li>
     </ul>
-    <button class="nav__menu-btn" id="js-nav-menu-btn" aria-label="Open menu">
-      <img src="Icons/mdi-light_menu.svg" alt="" />
-    </button>
   </nav>
+
+  <!-- Mobile menu toggle — sibling of nav/overlay so it can stack above both -->
+  <button class="nav__menu-btn" id="js-nav-menu-btn" aria-label="Open menu" aria-expanded="false">
+    <span class="nav__menu-bar"></span>
+    <span class="nav__menu-bar"></span>
+  </button>
 
   <!-- Mobile nav overlay -->
   <div class="nav__mobile" id="js-nav-mobile">
-    <div class="nav__mobile-header">
-      <button class="nav__mobile-close" id="js-nav-mobile-close" aria-label="Close menu">
-        <img src="Icons/bitcoin-icons_cross-outline.svg" alt="" />
-      </button>
-    </div>
     <ul class="nav__mobile-links">
       <li><a href="#" id="js-nav-mobile-work"><span>Work</span></a></li>
       <li><a href="#" id="js-nav-mobile-services"><span>Services</span></a></li>
@@ -1546,6 +1567,7 @@
 
   <script>
     (function () {
+      var isMobile = window.matchMedia('(max-width: 768px)').matches;
       var scrollContent = document.getElementById('js-scroll-content');
       var scrollSpacer  = document.getElementById('js-scroll-spacer');
       var videoFixed    = document.getElementById('js-video-fixed');
@@ -1596,11 +1618,18 @@
         videoEl.addEventListener('playing', onFirstFrame, { once: true });
         setTimeout(hide, fallbackMs);
       }
-      setupPoster(
-        document.querySelector('#js-video-fixed video'),
-        document.querySelector('.video-fixed__poster'),
-        4000
-      );
+      // Mobile: skip decoding/playing the hero video entirely — keep the
+      // static poster visible instead, saving battery/data/GPU.
+      var videoFixedEl = document.querySelector('#js-video-fixed video');
+      if (isMobile && videoFixedEl) {
+        videoFixedEl.pause();
+        videoFixedEl.removeAttribute('src');
+        var vfSource = videoFixedEl.querySelector('source');
+        if (vfSource) vfSource.removeAttribute('src');
+        videoFixedEl.load();
+      } else {
+        setupPoster(videoFixedEl, document.querySelector('.video-fixed__poster'), 4000);
+      }
       setupPoster(
         document.querySelector('#js-video-services video'),
         document.querySelector('#js-video-services .bg-video-poster'),
@@ -1655,21 +1684,25 @@
       });
 
       // Mobile nav
-      var navMobile = document.getElementById('js-nav-mobile');
-      document.getElementById('js-nav-menu-btn').addEventListener('click', function () {
-        navMobile.classList.add('is-open');
-      });
-      document.getElementById('js-nav-mobile-close').addEventListener('click', function () {
-        navMobile.classList.remove('is-open');
+      var navMobile  = document.getElementById('js-nav-mobile');
+      var navMenuBtn = document.getElementById('js-nav-menu-btn');
+      function setMenuOpen(open) {
+        navMobile.classList.toggle('is-open', open);
+        navMenuBtn.classList.toggle('is-open', open);
+        navMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        navMenuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      }
+      navMenuBtn.addEventListener('click', function () {
+        setMenuOpen(!navMobile.classList.contains('is-open'));
       });
       document.getElementById('js-nav-mobile-work').addEventListener('click', function (e) {
         e.preventDefault();
-        navMobile.classList.remove('is-open');
+        setMenuOpen(false);
         navScrollTo(document.getElementById('js-case-studies').offsetTop);
       });
       document.getElementById('js-nav-mobile-services').addEventListener('click', function (e) {
         e.preventDefault();
-        navMobile.classList.remove('is-open');
+        setMenuOpen(false);
         navScrollTo(servicesSection.offsetTop + 4 * PIN_HEIGHT);
       });
 
@@ -1690,9 +1723,9 @@
       var rawY      = 0;
       var lerpedY   = 0;
       var currentX  = 0;
+      var currentRotate = 0;
       var aboutDone = false;
       var csDone    = false;
-      var isMobile  = window.matchMedia('(max-width: 768px)').matches;
       var lerpFactor = isMobile ? 0.35 : 0.08;
 
       window.addEventListener('scroll', function () {
@@ -1789,7 +1822,9 @@
           var vidY = servicesOffset > 0 ? Math.min(lerpedY, servicesOffset) : lerpedY;
           var targetDown = vidY * 0.15;
           currentX += (targetDown - currentX) * 0.07;
-          videoFixed.style.transform = 'translateY(' + currentX.toFixed(2) + 'px)';
+          var targetRotate = footerOffset > 0 ? Math.min(lerpedY / footerOffset, 1) * 25 : 0;
+          currentRotate += (targetRotate - currentRotate) * 0.07;
+          videoFixed.style.transform = 'translateY(' + currentX.toFixed(2) + 'px) rotate(' + currentRotate.toFixed(2) + 'deg)';
         } else {
           /* Phase 1 (hero,  0 → vh):   shift 0 → 48% vw
              Phase 2 (about, vh → 2vh): shift 48% → 110% vw (off-screen) */
