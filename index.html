@@ -1118,6 +1118,14 @@
       .video-fixed__poster {
         object-fit: contain;
       }
+      /* Static rounded frame instead of an animated clip-path — much cheaper
+         to render on mobile GPUs. Reveal now comes from the scale+opacity
+         written in applyCardReveal(). */
+      .cs-feature__card {
+        clip-path: none;
+        border-radius: 16px;
+        will-change: transform, opacity;
+      }
       @keyframes videoZoomIn {
         from { transform: rotate(-90deg) scaleX(-1) scale(6.6); }
         to   { transform: rotate(-90deg) scaleX(-1) scale(4.65); }
@@ -1729,6 +1737,30 @@
         rawY = window.scrollY;
       }, { passive: true });
 
+      /* Card reveal — desktop animates a rounded clip-path (expensive but
+         GPU-fine there); mobile swaps it for a cheap scale+opacity reveal
+         over a static rounded frame, since animated clip-path is one of
+         the worst-performing properties on mobile GPUs. */
+      function applyCardReveal(cardEl, expandProg, collapseProg, vw) {
+        if (vw < 769) {
+          var scale = collapseProg > 0 ? 1 - collapseProg * 0.08 : 0.92 + expandProg * 0.08;
+          cardEl.style.transform = 'scale(' + scale.toFixed(4) + ')';
+        } else {
+          var insetV, insetH, radius;
+          if (collapseProg > 0) {
+            insetV = (collapseProg * 18).toFixed(3);
+            insetH = (collapseProg * 12).toFixed(3);
+            radius = (collapseProg * 20).toFixed(3);
+          } else {
+            insetV = ((1 - expandProg) * 15).toFixed(3);
+            insetH = ((1 - expandProg) * 10).toFixed(3);
+            radius = ((1 - expandProg) * 16).toFixed(3);
+          }
+          cardEl.style.clipPath = 'inset(' + insetV + '% ' + insetH + '% round ' + radius + 'px)';
+        }
+        cardEl.style.opacity = collapseProg > 0 ? Math.max(0, 1 - collapseProg * 1.4).toFixed(4) : '1';
+      }
+
       function loop() {
         var vh  = window.innerHeight;
         var vw  = window.innerWidth;
@@ -1859,18 +1891,7 @@
           var expandProg   = Math.max(0, Math.min(1, (lerpedY - (csFeatureOffset - vh)) / vh));
           var collapseProg = Math.max(0, Math.min(1, (lerpedY - csFeatureOffset) / (vh * 0.75)));
 
-          var insetV, insetH, radius;
-          if (collapseProg > 0) {
-            insetV = (collapseProg * 18).toFixed(3);
-            insetH = (collapseProg * 12).toFixed(3);
-            radius = (collapseProg * 20).toFixed(3);
-          } else {
-            insetV = ((1 - expandProg) * 15).toFixed(3);
-            insetH = ((1 - expandProg) * 10).toFixed(3);
-            radius = ((1 - expandProg) * 16).toFixed(3);
-          }
-          csFeatureCard.style.clipPath = 'inset(' + insetV + '% ' + insetH + '% round ' + radius + 'px)';
-          csFeatureCard.style.opacity  = collapseProg > 0 ? Math.max(0, 1 - collapseProg * 1.4).toFixed(4) : '1';
+          applyCardReveal(csFeatureCard, expandProg, collapseProg, vw);
 
           var contentOp = collapseProg > 0
             ? Math.max(0, 1 - collapseProg * 5)
@@ -1883,18 +1904,7 @@
           var yExpandProg   = Math.max(0, Math.min(1, (lerpedY - (yapOffset - vh)) / vh));
           var yCollapseProg = Math.max(0, Math.min(1, (lerpedY - yapOffset) / (vh * 0.75)));
 
-          var yInsetV, yInsetH, yRadius;
-          if (yCollapseProg > 0) {
-            yInsetV = (yCollapseProg * 18).toFixed(3);
-            yInsetH = (yCollapseProg * 12).toFixed(3);
-            yRadius = (yCollapseProg * 20).toFixed(3);
-          } else {
-            yInsetV = ((1 - yExpandProg) * 15).toFixed(3);
-            yInsetH = ((1 - yExpandProg) * 10).toFixed(3);
-            yRadius = ((1 - yExpandProg) * 16).toFixed(3);
-          }
-          yapCard.style.clipPath = 'inset(' + yInsetV + '% ' + yInsetH + '% round ' + yRadius + 'px)';
-          yapCard.style.opacity  = yCollapseProg > 0 ? Math.max(0, 1 - yCollapseProg * 1.4).toFixed(4) : '1';
+          applyCardReveal(yapCard, yExpandProg, yCollapseProg, vw);
 
           var yContentOp = yCollapseProg > 0
             ? Math.max(0, 1 - yCollapseProg * 5)
@@ -1907,18 +1917,7 @@
           var c3ExpandProg   = Math.max(0, Math.min(1, (lerpedY - (cs3Offset - vh)) / vh));
           var c3CollapseProg = Math.max(0, Math.min(1, (lerpedY - cs3Offset) / (vh * 0.75)));
 
-          var c3InsetV, c3InsetH, c3Radius;
-          if (c3CollapseProg > 0) {
-            c3InsetV = (c3CollapseProg * 18).toFixed(3);
-            c3InsetH = (c3CollapseProg * 12).toFixed(3);
-            c3Radius = (c3CollapseProg * 20).toFixed(3);
-          } else {
-            c3InsetV = ((1 - c3ExpandProg) * 15).toFixed(3);
-            c3InsetH = ((1 - c3ExpandProg) * 10).toFixed(3);
-            c3Radius = ((1 - c3ExpandProg) * 16).toFixed(3);
-          }
-          cs3Card.style.clipPath = 'inset(' + c3InsetV + '% ' + c3InsetH + '% round ' + c3Radius + 'px)';
-          cs3Card.style.opacity  = c3CollapseProg > 0 ? Math.max(0, 1 - c3CollapseProg * 1.4).toFixed(4) : '1';
+          applyCardReveal(cs3Card, c3ExpandProg, c3CollapseProg, vw);
 
           var c3ContentOp = c3CollapseProg > 0
             ? Math.max(0, 1 - c3CollapseProg * 5)
@@ -1931,18 +1930,7 @@
           var c4ExpandProg   = Math.max(0, Math.min(1, (lerpedY - (cs4Offset - vh)) / vh));
           var c4CollapseProg = Math.max(0, Math.min(1, (lerpedY - cs4Offset) / (vh * 0.75)));
 
-          var c4InsetV, c4InsetH, c4Radius;
-          if (c4CollapseProg > 0) {
-            c4InsetV = (c4CollapseProg * 18).toFixed(3);
-            c4InsetH = (c4CollapseProg * 12).toFixed(3);
-            c4Radius = (c4CollapseProg * 20).toFixed(3);
-          } else {
-            c4InsetV = ((1 - c4ExpandProg) * 15).toFixed(3);
-            c4InsetH = ((1 - c4ExpandProg) * 10).toFixed(3);
-            c4Radius = ((1 - c4ExpandProg) * 16).toFixed(3);
-          }
-          cs4Card.style.clipPath = 'inset(' + c4InsetV + '% ' + c4InsetH + '% round ' + c4Radius + 'px)';
-          cs4Card.style.opacity  = c4CollapseProg > 0 ? Math.max(0, 1 - c4CollapseProg * 1.4).toFixed(4) : '1';
+          applyCardReveal(cs4Card, c4ExpandProg, c4CollapseProg, vw);
 
           var c4ContentOp = c4CollapseProg > 0
             ? Math.max(0, 1 - c4CollapseProg * 5)
