@@ -396,24 +396,6 @@
       position: relative;
     }
 
-    /* Underline slides in on hover */
-    .nav__mobile-links a span::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 0;
-      width: 100%;
-      height: 1.5px;
-      background: #ffffff;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .nav__mobile-links a:hover span::after {
-      transform: scaleX(1);
-    }
-
     /* Staggered reveal when menu opens */
     .nav__mobile.is-open .nav__mobile-links li:nth-child(1) a span {
       transform: translateY(0);
@@ -1649,7 +1631,7 @@
  /* scroll pixels to hold full-bleed per section */
 
       function sizeSpacer() {
-        scrollSpacer.style.height = (scrollContent.offsetHeight + 19 * PIN_HEIGHT) + 'px';
+        scrollSpacer.style.height = (scrollContent.offsetHeight + 15 * PIN_HEIGHT) + 'px';
         csFeatureOffset = csFeatureSection.offsetTop;
         yapOffset       = yapSection.offsetTop;
         cs3Offset       = cs3Section.offsetTop;
@@ -1786,15 +1768,6 @@
                                 targetY = servicesOffset;
                               } else if (rawY > pin6End) {
                                 targetY = rawY - 15 * PIN_HEIGHT;
-                                if (clientsOffset > 0) {
-                                  var pin7Start = clientsOffset + 15 * PIN_HEIGHT;
-                                  var pin7End   = pin7Start + 4 * PIN_HEIGHT;
-                                  if (rawY > pin7Start && rawY <= pin7End) {
-                                    targetY = clientsOffset;
-                                  } else if (rawY > pin7End) {
-                                    targetY = rawY - 19 * PIN_HEIGHT;
-                                  }
-                                }
                               }
                             }
                           }
@@ -1974,8 +1947,7 @@
 
         var clientsTransProg = 0;
         if (clientsOffset > 0) {
-          var sPin7Start = clientsOffset + 15 * PIN_HEIGHT;
-          clientsTransProg = Math.max(0, Math.min(1, (rawY - sPin7Start) / (4 * PIN_HEIGHT)));
+          clientsTransProg = Math.max(0, Math.min(1, (lerpedY - (clientsOffset - vh * 0.9)) / (vh * 1.1)));
         }
 
         /* ── Services: all animation JS-driven ── */

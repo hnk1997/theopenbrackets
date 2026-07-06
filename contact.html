@@ -301,23 +301,6 @@
       position: relative;
     }
 
-    .nav__mobile-links a span::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 0;
-      width: 100%;
-      height: 1.5px;
-      background: #ffffff;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .nav__mobile-links a:hover span::after {
-      transform: scaleX(1);
-    }
-
     .nav__mobile.is-open .nav__mobile-links li:nth-child(1) a span {
       transform: translateY(0);
       transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
