@@ -1729,6 +1729,7 @@
       var rawY      = 0;
       var lerpedY   = 0;
       var currentX  = 0;
+      var currentY  = 0;
       var currentRotate = 0;
       var aboutDone = false;
       var csDone    = false;
@@ -1839,6 +1840,7 @@
         }
 
         /* ── Video: desktop drifts right; mobile drifts down slowly ── */
+        var footerVideoProg = 0;
         if (vw < 769) {
           var vidY = servicesOffset > 0 ? Math.min(lerpedY, servicesOffset) : lerpedY;
           var targetDown = vidY * 0.15;
@@ -1848,7 +1850,11 @@
           videoFixed.style.transform = 'translateY(' + currentX.toFixed(2) + 'px) rotate(' + currentRotate.toFixed(2) + 'deg)';
         } else {
           /* Phase 1 (hero,  0 → vh):   shift 0 → 48% vw
-             Phase 2 (about, vh → 2vh): shift 48% → 110% vw (off-screen) */
+             Phase 2 (about, vh → 2vh): shift 48% → 110% vw (off-screen)
+             Phase 3 (footer): drift back to center and rotate 90deg, shifted down
+             so only its top edge peeks up from underneath the footer panel, at
+             full opacity. Timed to match the footer's own reveal threshold
+             (footerOffset - vh * 0.8) so it doesn't bleed into Clients. */
           var targetX;
           if (lerpedY <= vh) {
             targetX = (lerpedY / vh) * vw * 0.48;
@@ -1856,15 +1862,23 @@
             var p2  = Math.min((lerpedY - vh) / vh, 1);
             targetX = (0.48 + p2 * 0.62) * vw;
           }
+          footerVideoProg = footerOffset > 0
+            ? Math.max(0, Math.min(1, (lerpedY - (footerOffset - vh * 0.8)) / (vh * 0.8)))
+            : 0;
+          targetX *= (1 - footerVideoProg);
           currentX += (targetX - currentX) * 0.07;
-          videoFixed.style.transform = 'translateX(' + currentX.toFixed(2) + 'px)';
+          currentY += (footerVideoProg * vh * 1.4 - currentY) * 0.07;
+          currentRotate += (footerVideoProg * 90 - currentRotate) * 0.07;
+          videoFixed.style.transform = 'translateX(' + currentX.toFixed(2) + 'px) translateY(' + currentY.toFixed(2) + 'px) rotate(' + currentRotate.toFixed(2) + 'deg)';
         }
 
         /* Fully hide once its slide-off animation completes — its translateX caps at
            110vw but the element itself is wider than that, leaving a permanent sliver
            visible on the right edge through every section below otherwise. Mobile drifts
-           down instead of off to the side, so it has no sliver to hide and stays visible. */
-        videoFixed.style.opacity = vw < 769 ? '1' : Math.max(0, 1 - Math.max(0, lerpedY - vh * 2) / (vh * 0.5)).toFixed(3);
+           down instead of off to the side, so it has no sliver to hide and stays visible.
+           Desktop fades back to full opacity near the footer (footerVideoProg). */
+        var heroFadeOpacity = Math.max(0, 1 - Math.max(0, lerpedY - vh * 2) / (vh * 0.5));
+        videoFixed.style.opacity = vw < 769 ? '1' : Math.max(heroFadeOpacity, footerVideoProg > 0 ? 1 : 0).toFixed(3);
 
         /* ── About text: slide in + subtle upward parallax as CS enters ── */
         var aboutTop = vh - lerpedY;
