@@ -1060,7 +1060,9 @@
     .footer__social {
       justify-self: center;
       display: flex;
-      gap: 28px;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
     }
 
     .footer__social a {
@@ -1076,6 +1078,11 @@
 
     .footer__social a:hover {
       color: #F4632A;
+    }
+
+    .footer__social-icon {
+      display: inline-flex;
+      align-items: center;
     }
 
     .footer__copyright {
@@ -1542,6 +1549,13 @@
         <div class="footer__bottom">
           <p class="footer__copyright">@2026 Theopenbrackets<br>Dubai, United Arab Emirates</p>
           <div class="footer__social">
+            <a href="https://www.instagram.com/theopenbracketts/" class="footer__social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="17.8" cy="6.2" r="1.1" fill="currentColor"/>
+              </svg>
+            </a>
             <a href="mailto:hello@theopenbrackets.agency" id="js-footer-email" data-email="hello@theopenbrackets.agency">hello@theopenbrackets.agency</a>
           </div>
           <a href="#" class="footer__logo">
