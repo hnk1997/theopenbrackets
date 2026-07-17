@@ -1080,6 +1080,12 @@
       color: #F4632A;
     }
 
+    .footer__social-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
     .footer__social-icon {
       display: inline-flex;
       align-items: center;
@@ -1549,13 +1555,20 @@
         <div class="footer__bottom">
           <p class="footer__copyright">@2026 Theopenbrackets<br>Dubai, United Arab Emirates</p>
           <div class="footer__social">
-            <a href="https://www.instagram.com/theopenbracketts/" class="footer__social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.5"/>
-                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/>
-                <circle cx="17.8" cy="6.2" r="1.1" fill="currentColor"/>
-              </svg>
-            </a>
+            <div class="footer__social-icons">
+              <a href="https://www.instagram.com/theopenbracketts/" class="footer__social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="17.8" cy="6.2" r="1.1" fill="currentColor"/>
+                </svg>
+              </a>
+              <a href="https://x.com/theopenbrackts" class="footer__social-icon" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            </div>
             <a href="mailto:hello@theopenbrackets.agency" id="js-footer-email" data-email="hello@theopenbrackets.agency">hello@theopenbrackets.agency</a>
           </div>
           <a href="#" class="footer__logo">
