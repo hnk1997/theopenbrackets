@@ -557,6 +557,12 @@
       letter-spacing: -0.01em;
     }
 
+    .contact-form__budget-value--unset {
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     .contact-form__range {
       -webkit-appearance: none;
       appearance: none;
@@ -826,9 +832,9 @@
         <div class="contact-form__group">
           <div class="contact-form__budget-head">
             <label class="contact-form__label" for="cf-budget" style="margin-bottom: 0;">Budget <span class="contact-form__optional">(Optional)</span></label>
-            <span class="contact-form__budget-value" id="cf-budget-value">AED 50,000</span>
+            <span class="contact-form__budget-value contact-form__budget-value--unset" id="cf-budget-value">PREFER NOT TO MENTION</span>
           </div>
-          <input class="contact-form__range" type="range" id="cf-budget" name="budget" min="5000" max="100000" step="500" value="50000" />
+          <input class="contact-form__range" type="range" id="cf-budget" name="budget" min="5000" max="100000" step="500" value="5000" />
           <p class="contact-form__budget-caption">A transparent budget that will help us ensure expectations are met. Ballparks are fine.</p>
         </div>
 
@@ -939,10 +945,17 @@
       var budgetValue = document.getElementById('cf-budget-value');
       function formatBudget() {
         var val = parseInt(budgetInput.value, 10);
+        var min = parseInt(budgetInput.min, 10);
         var max = parseInt(budgetInput.max, 10);
-        var formatted = 'AED ' + val.toLocaleString('en-US');
-        if (val >= max) formatted += '+';
+        var formatted;
+        if (val <= min) {
+          formatted = 'PREFER NOT TO MENTION';
+        } else {
+          formatted = 'AED ' + val.toLocaleString('en-US');
+          if (val >= max) formatted += '+';
+        }
         budgetValue.textContent = formatted;
+        budgetValue.classList.toggle('contact-form__budget-value--unset', val <= min);
         var pct = ((val - budgetInput.min) / (max - budgetInput.min)) * 100;
         budgetInput.style.background =
           'linear-gradient(to right, #F4632A 0%, #F4632A ' + pct + '%, rgba(255,255,255,0.15) ' + pct + '%, rgba(255,255,255,0.15) 100%)';
@@ -1046,7 +1059,7 @@
           email: emailInput.value.trim(),
           phone: phoneInput.value.trim() ? (countrySelect.value + ' ' + phoneInput.value.trim()) : '',
           message: messageInput.value.trim(),
-          budget_aed: budgetInput.value
+          budget_aed: budgetValue.textContent
         };
 
         submitBtn.disabled = true;
